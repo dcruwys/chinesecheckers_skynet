@@ -193,21 +193,56 @@ bool Agent::isValidMoveMessage(const std::vector<std::string> &tokens) const {
 
 void Agent::DLDFS(ChineseCheckersState &state, int depth){
   //std::cout << "Test:" << std::endl;
-  if(depth == 0){
-    std::cout << "YES" << std::endl;
+  if(depth == 0 || state.gameOver()){
     return;
   }
   std::vector<Move> moves;
   state.getMoves(moves);
   for(const auto i: moves){
     state.applyMove(i);
-    std::cout << state.dumpState() << std::endl;
+    //std::cout << state.dumpState() << std::endl;
     DLDFS(state, depth -1);
     state.undoMove(i);
   }
 }
 
-int Agent::eval(ChineseCheckersState state, int cplayer){
+int Agent::max(ChineseCheckersState &state, int depth){
+  if(depth == 0 || state.gameOver()){
+    return eval(state, state.getCurrentPlayer());
+  }
+  int bestValue =  std::numeric_limits<int>::min();
+  std::vector<Move> moves;
+  state.getMoves(moves);
+  for(const auto i: moves){
+    state.applyMove(i);
+    //std::cout << state.dumpState() << std::endl;
+    int value = max(state, depth -1);
+    if(value > bestValue)
+      bestValue = value;
+    state.undoMove(i);
+  }
+  return bestValue;
+}
+
+int Agent::min(ChineseCheckersState &state, int depth){
+  if(depth == 0 || state.gameOver()){
+    return eval(state, state.getCurrentPlayer());
+  }
+  int bestValue =  std::numeric_limits<int>::max();
+  std::vector<Move> moves;
+  state.getMoves(moves);
+  for(const auto i: moves){
+    state.applyMove(i);
+    //std::cout << state.dumpState() << std::endl;
+    int value = min(state, depth -1);
+    if(value < bestValue)
+      bestValue = value;
+    state.undoMove(i);
+  }
+  return bestValue;
+}
+
+int Agent::eval(ChineseCheckersState &state, int cplayer){
   int winner = state.winner();
   if(cplayer == winner)
     return std::numeric_limits<int>::max();

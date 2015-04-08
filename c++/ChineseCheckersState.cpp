@@ -305,25 +305,21 @@ Move ChineseCheckersState::heurstic(){ //it kinda works but needs to be fixed.
     if(currentPlayer == 2){
       currentMax = {80, 80};
     }
-    for(auto i : moves){
-    if((currentPlayer == 1) && ((i.to / 9) + (i.to % 9) 
-      > (currentMax.to / 9) + (currentMax.to % 9)) 
-      && ((i.to / 9 - i.from / 9) + (i.to % 9 - i.from % 9)
-      > (currentMax.to / 9 - currentMax.from / 9) + (currentMax.to % 9 - currentMax.from % 9)))
+    for(auto &i : moves){
+    if((currentPlayer == 1) && ((i.to / 9 + i.to % 9) - (i.from / 9 + i.from % 9)) 
+      > ((currentMax.to / 9 + currentMax.to % 9) - (currentMax.from / 9 + currentMax.from % 9)))
         {
-            Move &temp = i;
-            //std::cout << "i: from " << i.from << ", to: " << i.to << std::endl;
-            currentMax = temp;
-            //std::cout << currentMax << std::endl;
+          currentMax = i;
         }
-        if((currentPlayer == 2) && ((i.to / 9) + (i.to % 9)
-          < (currentMax.to / 9) + (currentMax.to % 9))
-          && ((i.from / 9 - i.to / 9) + (i.from % 9 - i.to % 9)
-          > (currentMax.from / 9 - currentMax.to / 9) + (currentMax.from % 9 - currentMax.to % 9)))
+    if((currentPlayer == 2) && ((i.to / 9 + i.to % 9) - (i.from / 9 + i.from % 9)) 
+      < ((currentMax.to / 9 + currentMax.to % 9) - (currentMax.from / 9 + currentMax.from % 9)))
         {
-            Move &temp = i;
-            currentMax = temp;
+          currentMax = i;
         }
     }
     return currentMax;
+}
+
+int ChineseCheckersState::getCurrentPlayer(){
+    return currentPlayer;
 }

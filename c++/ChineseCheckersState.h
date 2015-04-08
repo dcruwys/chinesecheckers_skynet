@@ -71,6 +71,9 @@ public:
   // Dump out the current state, usable with loadState
   std::string dumpState() const;
 
+  // Returns the current player
+  int getCurrentPlayer();
+
   Move heurstic(); //HW1 code
 
   // Translates a sequence of tokens from the move format used to the local move type
