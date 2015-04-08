@@ -72,7 +72,10 @@ public:
   std::string dumpState() const;
 
   // Returns the current player
-  int getCurrentPlayer();
+  int getCurrentPlayer() const;
+
+  // Returns the board
+  std::array<int, 81> getBoard() const;
 
   Move heurstic(); //HW1 code
 

@@ -302,24 +302,50 @@ Move ChineseCheckersState::heurstic(){ //it kinda works but needs to be fixed.
     std::vector<Move> moves;
     getMoves(moves);
     Move currentMax = {0, 0};
-    if(currentPlayer == 2){
+    int maxDiff = -100;
+    /*if(currentPlayer == 2){
       currentMax = {80, 80};
-    }
+    }*/
     for(auto &i : moves){
-    if((currentPlayer == 1) && ((i.to / 9 + i.to % 9) - (i.from / 9 + i.from % 9)) 
-      > ((currentMax.to / 9 + currentMax.to % 9) - (currentMax.from / 9 + currentMax.from % 9)))
-        {
-          currentMax = i;
-        }
-    if((currentPlayer == 2) && ((i.to / 9 + i.to % 9) - (i.from / 9 + i.from % 9)) 
-      < ((currentMax.to / 9 + currentMax.to % 9) - (currentMax.from / 9 + currentMax.from % 9)))
-        {
-          currentMax = i;
-        }
+      unsigned hexRowFrom = i.from / 9 + i.from % 9;
+      unsigned hexRowTo = i.to / 9 + i.to % 9;
+
+      int diff = (static_cast<int>(hexRowTo) - static_cast<int>(hexRowFrom)) * (currentPlayer == 1 ? 1 : -1);
+
+      if (diff > maxDiff) {
+        currentMax = i;
+        maxDiff = diff;
+      }
+
+      /*
+      if (currentPlayer == 1 && diff > maxDiff) {
+        currentMax = i;
+        maxDiff = diff;
+      } else if (currentPlayer == 2 && -diff > maxDiff) {
+        currentMax = i;
+        maxDiff = -diff;
+      }
+      */
+      /*
+      if((currentPlayer == 1) && ((i.to / 9 + i.to % 9) - (i.from / 9 + i.from % 9)) 
+        > ((currentMax.to / 9 + currentMax.to % 9) - (currentMax.from / 9 + currentMax.from % 9)))
+          {
+            currentMax = i;
+          }
+      if((currentPlayer == 2) && ((i.to / 9 + i.to % 9) - (i.from / 9 + i.from % 9)) 
+        < ((currentMax.to / 9 + currentMax.to % 9) - (currentMax.from / 9 + currentMax.from % 9)))
+          {
+            currentMax = i;
+          }
+          */
     }
     return currentMax;
 }
 
-int ChineseCheckersState::getCurrentPlayer(){
+int ChineseCheckersState::getCurrentPlayer() const{
     return currentPlayer;
+}
+
+std::array<int, 81> ChineseCheckersState::getBoard() const{
+    return board;
 }
