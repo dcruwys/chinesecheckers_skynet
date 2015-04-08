@@ -22,11 +22,11 @@ private:
 
   bool isValidStartGameMessage(const std::vector<std::string> &tokens) const;
   bool isValidMoveMessage(const std::vector<std::string> &tokens) const;
-
-  void DLDFS(ChineseCheckersState &state, int depth);
   int eval(ChineseCheckersState &state, int cplayer);
+  void DLDFS(ChineseCheckersState &state, int depth);
   int max(ChineseCheckersState &state, int depth);
   int min(ChineseCheckersState &state, int depth);
+  int minimax(ChineseCheckersState &state, int depth);
 
   ChineseCheckersState state;
   enum Players { player1, player2 };

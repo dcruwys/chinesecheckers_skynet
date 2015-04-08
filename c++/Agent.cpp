@@ -191,6 +191,15 @@ bool Agent::isValidMoveMessage(const std::vector<std::string> &tokens) const {
     tokens[3] == "TO";
 }
 
+int Agent::eval(ChineseCheckersState &state, int cplayer){
+  int winner = state.winner();
+  if(cplayer == winner)
+    return std::numeric_limits<int>::max();
+  else if(winner != -1)
+    return std::numeric_limits<int>::min();
+  return 0;
+}
+//basic DLDFS search, changes nothing.
 void Agent::DLDFS(ChineseCheckersState &state, int depth){
   //std::cout << "Test:" << std::endl;
   if(depth == 0 || state.gameOver()){
@@ -206,6 +215,7 @@ void Agent::DLDFS(ChineseCheckersState &state, int depth){
   }
 }
 
+//max function for minimax. Returns the MAX player's best state.
 int Agent::max(ChineseCheckersState &state, int depth){
   if(depth == 0 || state.gameOver()){
     return eval(state, state.getCurrentPlayer());
@@ -224,6 +234,7 @@ int Agent::max(ChineseCheckersState &state, int depth){
   return bestValue;
 }
 
+//min function for minimax. Returns the MIN player's best state.
 int Agent::min(ChineseCheckersState &state, int depth){
   if(depth == 0 || state.gameOver()){
     return eval(state, state.getCurrentPlayer());
@@ -241,13 +252,15 @@ int Agent::min(ChineseCheckersState &state, int depth){
   }
   return bestValue;
 }
-
-int Agent::eval(ChineseCheckersState &state, int cplayer){
-  int winner = state.winner();
-  if(cplayer == winner)
-    return std::numeric_limits<int>::max();
-  else if(winner != -1)
-    return std::numeric_limits<int>::min();
+//Minimax calls the min and max function.
+int Agent::minimax(ChineseCheckersState &state, int depth){
+  if(state.getCurrentPlayer() == 1){
+    return max(state, depth);
+  }
+  else if(state.getCurrentPlayer() == 2){
+    return min(state, depth);
+  }
   return 0;
 }
+
 
