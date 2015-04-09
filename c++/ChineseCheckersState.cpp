@@ -70,6 +70,22 @@ bool ChineseCheckersState::applyMove(Move m) {
 
   return true;
 }
+void timer(){
+   bool timeUp = false;
+
+  auto duration = std::chrono::milliseconds(1000);
+
+  auto t = std::thread([&timeUp, duration](){ std::this_thread::sleep_for(duration); timeUp = true; });
+
+  long i = 0;
+  while (!timeUp) {
+    ++i;
+    if ((i % (1 << 20)) == 0)
+      std::cout << i << std::endl;
+  }
+
+  t.join();
+}
 
 bool ChineseCheckersState::undoMove(Move m) {
   // Ensure the from and to are reasonable
@@ -332,7 +348,7 @@ Move ChineseCheckersState::heurstic(){ //it kinda works but needs to be fixed.
           {
             currentMax = i;
           }
-      if((currentPlayer == 2) && ((i.to / 9 + i.to % 9) - (i.from / 9 + i.from % 9)) 
+      if((currentPlayer == 2) && ((ChineseCheckersStateChineseCheckersStatei.to / 9 + i.to % 9) - (i.from / 9 + i.from % 9)) 
         < ((currentMax.to / 9 + currentMax.to % 9) - (currentMax.from / 9 + currentMax.from % 9)))
           {
             currentMax = i;

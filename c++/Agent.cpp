@@ -7,6 +7,8 @@
 #include <vector>
 #include <stdio.h>
 #include <limits>
+#include <chrono>
+#include <thread>
 
 Agent::Agent() : name("MyName") {}
 
@@ -285,13 +287,23 @@ int Agent::min(ChineseCheckersState &state, int depth, Move &bestMove){
 }
 //Minimax calls the min and max function.
 int Agent::minimax(ChineseCheckersState &state, int depth, int cplayer, Move &bestMove){
-  if(state.getCurrentPlayer() == cplayer){
-    return max(state, depth, bestMove);
-  }
-  else{
-    return min(state, depth, bestMove);
-  }
-  return 0;
+    bool timeUp = false;
+    auto duration = std::chrono::milliseconds(10000); //10s
+    auto t = std::thread([&timeUp, duration](){ std::this_thread::sleep_for(duration); timeUp = true; });
+    long i = 0;
+    while (!timeUp) {
+      ++i;
+      if(state.getCurrentPlayer() == cplayer){
+        return max(state, depth, bestMove);
+      } else {
+        return min(state, depth, bestMove);
+    }
+    //return 0;
+
+    if ((i % (1 << 20)) == 0)
+      std::cout << i << std::endl;
+    }   
+    t.join();
 }
 
 
