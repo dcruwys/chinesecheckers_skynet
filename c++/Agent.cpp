@@ -12,7 +12,9 @@ Agent::Agent() : name("MyName") {}
 
 Move Agent::nextMove() {
     // Somehow select your next move
-    return state.heurstic();
+    Move bestMove = {0,0};
+    minimax(state, 3, state.getCurrentPlayer(), bestMove);
+    return bestMove;
 }
 
 void Agent::playGame() {
@@ -152,7 +154,8 @@ void Agent::waitForStart() {
     } else if (tokens[0] == "MOVENEXT"){
         state.applyMove(nextMove());
     } else if(tokens[0] == "MINIMAX"){
-        minimax(state, 3);
+        Move bestMove;
+        std::cerr << "Minimax: " << minimax(state, 3, 1, bestMove) << std::endl;
     } else if (response == "LISTMOVES") {
       std::vector<Move> moves;
       state.getMoves(moves);
@@ -194,6 +197,12 @@ bool Agent::isValidMoveMessage(const std::vector<std::string> &tokens) const {
 }
 
 int Agent::eval(ChineseCheckersState &state, int cplayer){
+  int winner = state.winner();
+  if(cplayer == winner)
+    return std::numeric_limits<int>::max();
+  else if(winner != -1)
+    return std::numeric_limits<int>::min();
+
   int p2score = 0;
   int p1score = 0;
   std::array<int, 81> board = state.getBoard();
@@ -204,29 +213,13 @@ int Agent::eval(ChineseCheckersState &state, int cplayer){
         p1score += 16 - currentlocation;
       else
         p2score += currentlocation;
-      /*
-      if(cplayer == 1 && board[i] == cplayer){
-          score += currentlocation + 16;
-      }else if(cplayer == 2 && board[i] == cplayer){
-          score += currentlocation;
-      }*/
     }
   }
 
-  if (cplayer == 1){
-    std::cerr << "Score: " << p2score-p1score << std::endl;
+  if (cplayer == 2){
     return p2score - p1score;
   }
-  std::cerr << "Score: " << p1score-p2score << std::endl;
   return p1score - p2score;
-
-  
-  int winner = state.winner();
-  if(cplayer == winner)
-    return std::numeric_limits<int>::max();
-  else if(winner != -1)
-    return std::numeric_limits<int>::min();
-  //return score;
 }
 //basic DLDFS search, changes nothing.
 void Agent::DLDFS(ChineseCheckersState &state, int depth){
@@ -246,7 +239,7 @@ void Agent::DLDFS(ChineseCheckersState &state, int depth){
 }
 
 //max function for minimax. Returns the MAX player's best state.
-int Agent::max(ChineseCheckersState &state, int depth){
+int Agent::max(ChineseCheckersState &state, int depth, Move &bestMove){
   int bestValue =  std::numeric_limits<int>::min();
   //std::cerr << depth << std::endl;
   if(depth == 0 || state.gameOver()){
@@ -258,17 +251,18 @@ int Agent::max(ChineseCheckersState &state, int depth){
   state.getMoves(moves);
   for(const auto i: moves){
     state.applyMove(i);
-    //std::cout << state.dumpState() << std::endl;
-    value = min(state, depth -1);
+    value = min(state, depth -1, bestMove);
     state.undoMove(i);
-    if(value > bestValue)
+    if(value > bestValue){
       bestValue = value;
+      bestMove = i;
+    }
   }
   return bestValue;
 }
 
 //min function for minimax. Returns the MIN player's best state.
-int Agent::min(ChineseCheckersState &state, int depth){
+int Agent::min(ChineseCheckersState &state, int depth, Move &bestMove){
   if(depth == 0 || state.gameOver()){
     return eval(state, state.getCurrentPlayer());
   }
@@ -278,21 +272,22 @@ int Agent::min(ChineseCheckersState &state, int depth){
   state.getMoves(moves);
   for(const auto i: moves){
     state.applyMove(i);
-    //std::cout << state.dumpState() << std::endl;
-    value = max(state, depth -1);
+    value = max(state, depth -1, bestMove);
     state.undoMove(i);
-    if(value < bestValue)
+    if(value < bestValue){
       bestValue = value;
+      bestMove = i;
+    }
   }
   return bestValue;
 }
 //Minimax calls the min and max function.
-int Agent::minimax(ChineseCheckersState &state, int depth){
-  if(state.getCurrentPlayer() == 1){
-    return max(state, depth);
+int Agent::minimax(ChineseCheckersState &state, int depth, int cplayer, Move &bestMove){
+  if(state.getCurrentPlayer() == cplayer){
+    return max(state, depth, bestMove);
   }
-  else if(state.getCurrentPlayer() == 2){
-    return min(state, depth);
+  else{
+    return min(state, depth, bestMove);
   }
   return 0;
 }
