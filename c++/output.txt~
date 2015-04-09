@@ -1,0 +1,20 @@
+Agent.cpp:289:24: error: no member named 'chrono' in namespace 'std'
+  auto duration = std::chrono::milliseconds(10000); //10s
+                  ~~~~~^
+Agent.cpp:290:17: error: no member named 'thread' in namespace 'std'; did you mean 'fread'?
+  auto t = std::thread([&timeUp, duration](){ std::this_thread::sleep_for(duration); timeUp = true; });
+           ~~~~~^~~~~~
+                fread
+/usr/include/stdio.h:709:15: note: 'fread' declared here
+extern size_t fread (void *__restrict __ptr, size_t __size,
+              ^
+Agent.cpp:290:52: error: no member named 'this_thread' in namespace 'std'
+  auto t = std::thread([&timeUp, duration](){ std::this_thread::sleep_for(duration); timeUp = true; });
+                                              ~~~~~^
+Agent.cpp:290:102: error: too few arguments to function call, expected 4, have 1
+  auto t = std::thread([&timeUp, duration](){ std::this_thread::sleep_for(duration); timeUp = true; });
+           ~~~~~~~~~~~                                                                               ^
+/usr/include/stdio.h:709:1: note: 'fread' declared here
+extern size_t fread (void *__restrict __ptr, size_t __size,
+^
+4 errors generated.

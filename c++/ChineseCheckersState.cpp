@@ -70,22 +70,6 @@ bool ChineseCheckersState::applyMove(Move m) {
 
   return true;
 }
-void timer(){
-   bool timeUp = false;
-
-  auto duration = std::chrono::milliseconds(1000);
-
-  auto t = std::thread([&timeUp, duration](){ std::this_thread::sleep_for(duration); timeUp = true; });
-
-  long i = 0;
-  while (!timeUp) {
-    ++i;
-    if ((i % (1 << 20)) == 0)
-      std::cout << i << std::endl;
-  }
-
-  t.join();
-}
 
 bool ChineseCheckersState::undoMove(Move m) {
   // Ensure the from and to are reasonable

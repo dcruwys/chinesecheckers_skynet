@@ -24,9 +24,10 @@ private:
   bool isValidMoveMessage(const std::vector<std::string> &tokens) const;
   int eval(ChineseCheckersState &state, int cplayer);
   void DLDFS(ChineseCheckersState &state, int depth);
-  int max(ChineseCheckersState &state, int depth, Move &bestMove);
-  int min(ChineseCheckersState &state, int depth, Move &bestMove);
-  int minimax(ChineseCheckersState &state, int depth, int cplayer, Move &bestMove);
+  int max(ChineseCheckersState &state, int depth, Move &bestMove, bool &timeUp);
+  int min(ChineseCheckersState &state, int depth, Move &bestMove, bool &timeUp);
+  int minimax(ChineseCheckersState &state, int depth, int cplayer, Move &bestMove, bool &timeUp);
+  void ideepening(ChineseCheckersState &state, int cplayer, Move &bestMove);
 
   ChineseCheckersState state;
   enum Players { player1, player2 };

@@ -15,7 +15,7 @@ Agent::Agent() : name("MyName") {}
 Move Agent::nextMove() {
     // Somehow select your next move
     Move bestMove = {0,0};
-    minimax(state, 3, state.getCurrentPlayer(), bestMove);
+    ideepening(state, state.getCurrentPlayer(), bestMove);
     return bestMove;
 }
 
@@ -155,9 +155,6 @@ void Agent::waitForStart() {
         std::cerr << "Failed to load '" << new_state << "'\n";
     } else if (tokens[0] == "MOVENEXT"){
         state.applyMove(nextMove());
-    } else if(tokens[0] == "MINIMAX"){
-        Move bestMove;
-        std::cerr << "Minimax: " << minimax(state, 3, 1, bestMove) << std::endl;
     } else if (response == "LISTMOVES") {
       std::vector<Move> moves;
       state.getMoves(moves);
@@ -241,10 +238,10 @@ void Agent::DLDFS(ChineseCheckersState &state, int depth){
 }
 
 //max function for minimax. Returns the MAX player's best state.
-int Agent::max(ChineseCheckersState &state, int depth, Move &bestMove){
+int Agent::max(ChineseCheckersState &state, int depth, Move &bestMove, bool &timeUp){
   int bestValue =  std::numeric_limits<int>::min();
   //std::cerr << depth << std::endl;
-  if(depth == 0 || state.gameOver()){
+  if(depth == 0 || state.gameOver() || timeUp){
     return eval(state, state.getCurrentPlayer());
   }
   
@@ -254,7 +251,7 @@ int Agent::max(ChineseCheckersState &state, int depth, Move &bestMove){
   Move temp = {0,0};
   for(const auto i: moves){
     state.applyMove(i);
-    value = min(state, depth -1, temp);
+    value = min(state, depth -1, temp, timeUp);
     state.undoMove(i);
     if(value > bestValue){
       bestValue = value;
@@ -265,45 +262,44 @@ int Agent::max(ChineseCheckersState &state, int depth, Move &bestMove){
 }
 
 //min function for minimax. Returns the MIN player's best state.
-int Agent::min(ChineseCheckersState &state, int depth, Move &bestMove){
-  if(depth == 0 || state.gameOver()){
+int Agent::min(ChineseCheckersState &state, int depth, Move &bestMove, bool &timeUp){
+  if(depth == 0 || state.gameOver() || timeUp){
     return eval(state, state.getCurrentPlayer());
   }
   int bestValue =  std::numeric_limits<int>::max();
   int value = 0;
   std::vector<Move> moves;
   state.getMoves(moves);
-  Move temp = {0,0};
   for(const auto i: moves){
     state.applyMove(i);
-    value = max(state, depth -1, temp);
+    value = max(state, depth -1, bestMove, timeUp );
     state.undoMove(i);
     if(value < bestValue){
       bestValue = value;
-      bestMove = i;
     }
   }
   return bestValue;
 }
 //Minimax calls the min and max function.
-int Agent::minimax(ChineseCheckersState &state, int depth, int cplayer, Move &bestMove){
-    bool timeUp = false;
-    auto duration = std::chrono::milliseconds(10000); //10s
-    auto t = std::thread([&timeUp, duration](){ std::this_thread::sleep_for(duration); timeUp = true; });
-    long i = 0;
-    while (!timeUp) {
-      ++i;
-      if(state.getCurrentPlayer() == cplayer){
-        return max(state, depth, bestMove);
-      } else {
-        return min(state, depth, bestMove);
-    }
-    //return 0;
-
-    if ((i % (1 << 20)) == 0)
-      std::cout << i << std::endl;
-    }   
-    t.join();
+int Agent::minimax(ChineseCheckersState &state, int depth, int cplayer, Move &bestMove, bool &timeUp){
+  if(state.getCurrentPlayer() == cplayer || !timeUp){
+    return max(state, depth, bestMove, timeUp);
+  } else {
+    return min(state, depth, bestMove, timeUp);
+  }
 }
 
+void Agent::ideepening(ChineseCheckersState &state, int cplayer, Move &bestMove){
+  bool timeUp = false;
+  Move tempMove = {0,0};
+  auto duration = std::chrono::milliseconds(10000 - 200); //10s
+  auto t = std::thread([&timeUp, duration](){ std::this_thread::sleep_for(duration); timeUp = true; });
+ int depth = 0;
+ while(!timeUp){  
+    minimax(state, depth, cplayer, tempMove, timeUp);
+    ++depth;
+    bestMove = tempMove;  
+  }
+  t.join();
+}
 
