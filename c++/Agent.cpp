@@ -249,9 +249,10 @@ int Agent::max(ChineseCheckersState &state, int depth, Move &bestMove){
   int value = 0;
   std::vector<Move> moves;
   state.getMoves(moves);
+  Move temp = {0,0};
   for(const auto i: moves){
     state.applyMove(i);
-    value = min(state, depth -1, bestMove);
+    value = min(state, depth -1, temp);
     state.undoMove(i);
     if(value > bestValue){
       bestValue = value;
@@ -270,9 +271,10 @@ int Agent::min(ChineseCheckersState &state, int depth, Move &bestMove){
   int value = 0;
   std::vector<Move> moves;
   state.getMoves(moves);
+  Move temp = {0,0};
   for(const auto i: moves){
     state.applyMove(i);
-    value = max(state, depth -1, bestMove);
+    value = max(state, depth -1, temp);
     state.undoMove(i);
     if(value < bestValue){
       bestValue = value;
