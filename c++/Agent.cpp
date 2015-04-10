@@ -10,12 +10,14 @@
 #include <chrono>
 #include <thread>
 
-Agent::Agent() : name("MyName") {}
+Agent::Agent() : name("ideepening") {}
 
 Move Agent::nextMove() {
     // Somehow select your next move
     Move bestMove = {0,0};
+    //bool timeUp = false;
     ideepening(state, state.getCurrentPlayer(), bestMove);
+    //minimax(state, 3, state.getCurrentPlayer(), bestMove, timeUp);
     return bestMove;
 }
 
