@@ -15,9 +15,9 @@ Agent::Agent() : name("alphabeta") {}
 Move Agent::nextMove() {
     // Somehow select your next move
     Move bestMove = {0,0};
-    //bool timeUp = false;
-    ideepening(state, state.getCurrentPlayer(), bestMove);
-    //minimax(state, 3, state.getCurrentPlayer(), bestMove, timeUp);
+    bool timeUp = false;
+    //ideepening(state, state.getCurrentPlayer(), bestMove);
+    minimax(state, 3, state.getCurrentPlayer(), bestMove, timeUp);
     return bestMove;
 }
 
@@ -224,54 +224,53 @@ int Agent::eval(ChineseCheckersState &state, int cplayer){
 }
 
 //max function for minimax. Returns the MAX player's best state.
-int Agent::max(ChineseCheckersState &state, int depth, Move &bestMove, bool &timeUp){
-  int bestValue =  std::numeric_limits<int>::min();
+int Agent::max(ChineseCheckersState &state, int depth, Move &bestMove, bool &timeUp, int alpha, int beta){
   //std::cerr << depth << std::endl;
   if(depth == 0 || state.gameOver() || timeUp){
     return eval(state, state.getCurrentPlayer());
   }
-  
-  int value = 0;
   std::vector<Move> moves;
   state.getMoves(moves);
   Move temp = {0,0};
   for(const auto i: moves){
     state.applyMove(i);
-    value = min(state, depth -1, temp, timeUp);
+    int value = min(state, depth -1, temp, timeUp, alpha, beta);
     state.undoMove(i);
-    if(value > bestValue){
-      bestValue = value;
+    if(value > alpha){
       bestMove = i;
+      alpha = value;
     }
+    if(beta <= alpha )
+      break;
   }
-  return bestValue;
+  return alpha;
 }
 
 //min function for minimax. Returns the MIN player's best state.
-int Agent::min(ChineseCheckersState &state, int depth, Move &bestMove, bool &timeUp){
+int Agent::min(ChineseCheckersState &state, int depth, Move &bestMove, bool &timeUp, int alpha, int beta){
   if(depth == 0 || state.gameOver() || timeUp){
     return eval(state, state.getCurrentPlayer());
   }
-  int bestValue =  std::numeric_limits<int>::max();
-  int value = 0;
   std::vector<Move> moves;
   state.getMoves(moves);
   for(const auto i: moves){
     state.applyMove(i);
-    value = max(state, depth -1, bestMove, timeUp );
+    int value = max(state, depth -1, bestMove, timeUp, alpha, beta );
     state.undoMove(i);
-    if(value < bestValue){
-      bestValue = value;
-    }
+    if(value < beta)
+      beta = value;
+    if(beta <= alpha)
+      break;
+
   }
-  return bestValue;
+  return beta;
 }
 //Minimax calls the min and max function.
 int Agent::minimax(ChineseCheckersState &state, int depth, int cplayer, Move &bestMove, bool &timeUp){
   if(state.getCurrentPlayer() == cplayer || !timeUp){
-    return max(state, depth, bestMove, timeUp);
+    return max(state, depth, bestMove, timeUp, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
   } else {
-    return min(state, depth, bestMove, timeUp);
+    return min(state, depth, bestMove, timeUp, std::numeric_limits<int>::max(), std::numeric_limits<int>::min());
   }
 }
 

@@ -27,8 +27,13 @@ Each one represents a differant state of the AI in chronological order:
 1. **heurstic.out**, a basic "choose the farthest postion" implentation. 
 2. **minimax.out**, a greedy minimax function. You can read about minimax [here](http://en.wikipedia.org/wiki/Minimax).
 3. **ideepening.out**, a interative deepening of the minimax, given ~10s per move. At this point it is not effective.
-4. **ChineseCheckersRandom**, chooses a random move.
-5. **ChineseCheckersModerator**, contains the rules and decides the winner. This is not a player and only for GameMaster.jar.
+4. **alphabeta.out**, same as mininmax, but runs much faster.
+
+There are also two binaries for testing:
+
+1. **ChineseCheckersRandom**, chooses a random move.
+2. **ChineseCheckersModerator**, contains the rules and decides the winner. This is not a player and only for GameMaster.jar.
+
 
 There are also two jars in the root folder.
 
