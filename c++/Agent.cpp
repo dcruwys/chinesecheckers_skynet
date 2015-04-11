@@ -10,7 +10,7 @@
 #include <chrono>
 #include <thread>
 
-Agent::Agent() : name("ideepening") {}
+Agent::Agent() : name("alphabeta") {}
 
 Move Agent::nextMove() {
     // Somehow select your next move
@@ -221,22 +221,6 @@ int Agent::eval(ChineseCheckersState &state, int cplayer){
     return p2score - p1score;
   }
   return p1score - p2score;
-}
-//basic DLDFS search, changes nothing.
-void Agent::DLDFS(ChineseCheckersState &state, int depth){
-  //std::cout << "Test:" << std::endl;
-  if(depth == 0 || state.gameOver()){
-    std::cerr << "BOTTOM" << std::endl;
-    return;
-  }
-  std::vector<Move> moves;
-  state.getMoves(moves);
-  for(const auto i: moves){
-    state.applyMove(i);
-    //std::cout << state.dumpState() << std::endl;
-    DLDFS(state, depth -1);
-    state.undoMove(i);
-  }
 }
 
 //max function for minimax. Returns the MAX player's best state.
