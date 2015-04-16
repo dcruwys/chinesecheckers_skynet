@@ -9,8 +9,12 @@
 #include <limits>
 #include <chrono>
 #include <thread>
+#include <unordered_map>
+#include "randomtable.txt" //Import array of random values
 
 Agent::Agent() : name("alphabeta") {}
+
+uint64_t hash = 0;
 
 Move Agent::nextMove() {
     // Somehow select your next move
@@ -287,4 +291,36 @@ void Agent::ideepening(ChineseCheckersState &state, int cplayer, Move &bestMove)
   }
   t.join();
 }
+
+//Stores the transition table hashmap
+std::unordered_map<uint64_t, int> transpTable;
+void Agent::InitTT(ChineseCheckersState &s, int cplayer){
+  //std::array<int, 81> board = state.getBoard();
+  for(int x = 0; x < 81; x++)
+  {
+    for(int i = 0; i < 81; i++)
+    {
+      //board[x][i] = rands[x];
+      transpTable[rands[i]] = s.get
+    }
+  }
+}
+
+void Agent::ResetTT()
+{
+
+  for(int x = 0; x < 81; x++)
+  {
+   board[x] = 0;
+   hash ^= rands[x][board[x]]; 
+  }
+  who = 1; pieces = 0;
+}
+
+
+
+//We need to make a seperate program to generate
+//Random numbers and save them to a file for this
+//Program to read.
+
 
