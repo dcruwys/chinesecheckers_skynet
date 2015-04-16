@@ -231,7 +231,7 @@ int Agent::eval(ChineseCheckersState &state, int cplayer){
 int Agent::max(ChineseCheckersState &state, int depth, Move &bestMove, bool &timeUp, int alpha, int beta){
   //std::cerr << depth << std::endl;
   if(depth == 0 || state.gameOver() || timeUp){
-    return eval(state, state.getCurrentPlayer());
+    return eval(state, state.getCurrentPlayer())-depth;
   }
   std::vector<Move> moves;
   state.getMoves(moves);
@@ -253,7 +253,7 @@ int Agent::max(ChineseCheckersState &state, int depth, Move &bestMove, bool &tim
 //min function for minimax. Returns the MIN player's best state.
 int Agent::min(ChineseCheckersState &state, int depth, Move &bestMove, bool &timeUp, int alpha, int beta){
   if(depth == 0 || state.gameOver() || timeUp){
-    return eval(state, state.getCurrentPlayer());
+    return eval(state, state.getCurrentPlayer())-depth;
   }
   std::vector<Move> moves;
   state.getMoves(moves);
