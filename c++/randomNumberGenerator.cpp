@@ -20,8 +20,8 @@ int main()
     std::mt19937 gen(rd());
     std::uniform_int_distribution<uint64_t> 
         dis(0, std::numeric_limits<uint64_t>::max());
-
-    outFile << "const static rands[] = {\n";
+    outFile << "#include <cstdint>\n";
+    outFile << "const static uint64_t rands[] = {\n";
 	for(int x = 0; x < numLoc; x++){
 		for(int y = 0; y < numValues; y++){
 			//std::cout<< dis(gen()) << std::endl;

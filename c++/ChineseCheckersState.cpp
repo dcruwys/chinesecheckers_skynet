@@ -59,7 +59,7 @@ bool ChineseCheckersState::applyMove(Move m) {
   if (m.from > 80 || m.to > 80 || m.from == m.to)
     return false;
   uint64_t zHash = 0;
-  int temp = board[getBoard()].from;
+  uint64_t temp = board[getBoard()].from;
   zHash ^= rands[m.from + getCurrentPlayer()];
   zHash ^= rands[temp + getCurrentPlayer()];
 
@@ -67,7 +67,9 @@ bool ChineseCheckersState::applyMove(Move m) {
 
   zHash ^= rands[temp + getCurrentPlayer()];
   zHash ^= rands[m.to + getCurrentPlayer()];
-  //zHash ^= rands[m.to + getCurrentPlayer()];
+
+
+
   // Check the move
   // FIXME: This should be uncommented once you have getMoves working!!
   /*
@@ -90,7 +92,8 @@ bool ChineseCheckersState::undoMove(Move m) {
     return false;
 
   uint64_t zHash = 0;
-  int temp = board[getBoard()].to;
+  uint64_t temp = board[getBoard()].to;
+  
   zHash ^= rands[m.to + getCurrentPlayer()];
   zHash ^= rands[temp + getCurrentPlayer()];
 
