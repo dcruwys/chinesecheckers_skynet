@@ -10,6 +10,8 @@
 #include <vector>
 #include <stdio.h>
 #include <iostream>
+#include "randomtable.txt"
+#include <cstdint>
 
 Move::operator std::string() const {
   std::stringstream ss;
@@ -50,11 +52,22 @@ void ChineseCheckersState::getMoves(std::vector<Move> &moves) const {
   }
 }
 
+
+
 bool ChineseCheckersState::applyMove(Move m) {
   // Ensure the from and to are reasonable
   if (m.from > 80 || m.to > 80 || m.from == m.to)
     return false;
+  uint64_t zHash = 0;
+  int temp = board[getBoard()].from;
+  zHash ^= rands[m.from + getCurrentPlayer()];
+  zHash ^= rands[temp + getCurrentPlayer()];
 
+  temp = board[getCurrentPlayer()].to;
+
+  zHash ^= rands[temp + getCurrentPlayer()];
+  zHash ^= rands[m.to + getCurrentPlayer()];
+  //zHash ^= rands[m.to + getCurrentPlayer()];
   // Check the move
   // FIXME: This should be uncommented once you have getMoves working!!
   /*
@@ -76,6 +89,15 @@ bool ChineseCheckersState::undoMove(Move m) {
   if (m.from > 80 || m.to > 80 || m.from == m.to)
     return false;
 
+  uint64_t zHash = 0;
+  int temp = board[getBoard()].to;
+  zHash ^= rands[m.to + getCurrentPlayer()];
+  zHash ^= rands[temp + getCurrentPlayer()];
+
+  temp = board[getCurrentPlayer()].from;
+
+  zHash ^= rands[temp + getCurrentPlayer()];
+  zHash ^= rands[m.from + getCurrentPlayer()];
   // Undo the move
   std::swap(board[m.from], board[m.to]);
   swapTurn();
