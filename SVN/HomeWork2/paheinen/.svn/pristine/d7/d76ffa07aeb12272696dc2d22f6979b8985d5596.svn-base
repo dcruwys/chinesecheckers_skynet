@@ -9,28 +9,13 @@
 #include <limits>
 #include <chrono>
 #include <thread>
-#include <unordered_map>
-#include "randomtable.txt" //Import array of random values
-//#include "timer.cpp"
-#include "ABMiniMax.cpp"
 
-
-using namespace timer;
-
-Agent::Agent() : name("alphabeta") {}
-
-uint64_t hash = 0;
-std::unordered_map<uint64_t, int> transpTable;
+Agent::Agent() : name("MyName") {}
 
 Move Agent::nextMove() {
     // Somehow select your next move
     Move bestMove = {0,0};
-    bool timeUp = false;
-
-    //Iterative Deepening requires work
-
-    //ideepening(state, state.getCurrentPlayer(), bestMove);
-    minimax(state, 3, state.getCurrentPlayer(), bestMove, timeUp);
+    ideepening(state, state.getCurrentPlayer(), bestMove);
     return bestMove;
 }
 
@@ -235,101 +220,86 @@ int Agent::eval(ChineseCheckersState &state, int cplayer){
   }
   return p1score - p2score;
 }
-
-
-//OLD MINIMAX
-
+//basic DLDFS search, changes nothing.
+void Agent::DLDFS(ChineseCheckersState &state, int depth){
+  //std::cout << "Test:" << std::endl;
+  if(depth == 0 || state.gameOver()){
+    std::cerr << "BOTTOM" << std::endl;
+    return;
+  }
+  std::vector<Move> moves;
+  state.getMoves(moves);
+  for(const auto i: moves){
+    state.applyMove(i);
+    //std::cout << state.dumpState() << std::endl;
+    DLDFS(state, depth -1);
+    state.undoMove(i);
+  }
+}
 
 //max function for minimax. Returns the MAX player's best state.
-
-/*int Agent::max(ChineseCheckersState &state, int depth, Move &bestMove, bool &timeUp, int alpha, int beta){
+int Agent::max(ChineseCheckersState &state, int depth, Move &bestMove, bool &timeUp){
+  int bestValue =  std::numeric_limits<int>::min();
   //std::cerr << depth << std::endl;
   if(depth == 0 || state.gameOver() || timeUp){
-    return eval(state, state.getCurrentPlayer())-depth;
+    return eval(state, state.getCurrentPlayer());
   }
+  
+  int value = 0;
   std::vector<Move> moves;
   state.getMoves(moves);
   Move temp = {0,0};
   for(const auto i: moves){
     state.applyMove(i);
-    int value = min(state, depth -1, temp, timeUp, alpha, beta);
+    value = min(state, depth -1, temp, timeUp);
     state.undoMove(i);
-    if(value > alpha){
+    if(value > bestValue){
+      bestValue = value;
       bestMove = i;
-      alpha = value;
     }
-    if(beta <= alpha )
-      break;
   }
-  //TranspTable stuff
-  if(bestMove >= beta){
-
-  }
-  return alpha;
-}*/
+  return bestValue;
+}
 
 //min function for minimax. Returns the MIN player's best state.
-/*int Agent::min(ChineseCheckersState &state, int depth, Move &bestMove, bool &timeUp, int alpha, int beta){
+int Agent::min(ChineseCheckersState &state, int depth, Move &bestMove, bool &timeUp){
   if(depth == 0 || state.gameOver() || timeUp){
-    return eval(state, state.getCurrentPlayer())-depth;
+    return eval(state, state.getCurrentPlayer());
   }
+  int bestValue =  std::numeric_limits<int>::max();
+  int value = 0;
   std::vector<Move> moves;
   state.getMoves(moves);
   for(const auto i: moves){
     state.applyMove(i);
-    int value = max(state, depth -1, bestMove, timeUp, alpha, beta );
+    value = max(state, depth -1, bestMove, timeUp );
     state.undoMove(i);
-    if(value < beta)
-      beta = value;
-    if(beta <= alpha)
-      break;
-
+    if(value < bestValue){
+      bestValue = value;
+    }
   }
-  //Transposition table stuff
-  // if(bestMove <= alpha){
-  //   transpTable[hash] = 
-  // }
-  return beta;
-}*/
-
+  return bestValue;
+}
 //Minimax calls the min and max function.
-/*int Agent::minimax(ChineseCheckersState &state, int depth, int cplayer, Move &bestMove, bool &timeUp){
+int Agent::minimax(ChineseCheckersState &state, int depth, int cplayer, Move &bestMove, bool &timeUp){
   if(state.getCurrentPlayer() == cplayer || !timeUp){
-    //return max(state, depth, bestMove, timeUp, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
-    return MiniMax(state, depth, bestMove, 
+    return max(state, depth, bestMove, timeUp);
   } else {
-    return min(state, depth, bestMove, timeUp, std::numeric_limits<int>::max(), std::numeric_limits<int>::min());
+    return min(state, depth, bestMove, timeUp);
   }
-}*/
+}
 
-
-
-// void Agent::ideepening(ChineseCheckersState &state, int cplayer, Move &bestMove){
-//   //bool timeUp = false;
-//   Move tempMove = {0,0};
-//   //auto duration = std::chrono::milliseconds(10000 - 200); //10s
-//   //auto t = std::thread([&timeUp, duration](){ std::this_thread::sleep_for(duration); timeUp = true; });
-//  timer::startTimer();
-//  int depth = 0;
-
-//  while(!timer::timeUp()){  
-//     ABMiniMax(state, depth, cplayer, tempMove, timer::timeUp());
-//     ++depth;
-//     bestMove = tempMove;
-//     if(transpTable.find(state.GetHash()) != transpTable.end())
-//     {
-//       return transpTable[state.GetHash()];
-//     }
-//   }
-//   t.join();
-// }
-
-//Stores the transition table hashmap
-
-
-
-//We need to make a seperate program to generate
-//Random numbers and save them to a file for this
-//Program to read.
-
+void Agent::ideepening(ChineseCheckersState &state, int cplayer, Move &bestMove){
+  bool timeUp = false;
+  Move tempMove = {0,0};
+  auto duration = std::chrono::milliseconds(10000 - 200); //10s
+  auto t = std::thread([&timeUp, duration](){ std::this_thread::sleep_for(duration); timeUp = true; });
+ int depth = 0;
+ while(!timeUp){  
+    minimax(state, depth, cplayer, tempMove, timeUp);
+    ++depth;
+    bestMove = tempMove;  
+  }
+  t.join();
+}
 

@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "ChineseCheckersState.h"
-#include "ABMiniMax.h"
 
 class Agent {
 public:
@@ -23,12 +22,7 @@ private:
 
   bool isValidStartGameMessage(const std::vector<std::string> &tokens) const;
   bool isValidMoveMessage(const std::vector<std::string> &tokens) const;
-  int eval(ChineseCheckersState &state, int cplayer);
-  void DLDFS(ChineseCheckersState &state, int depth);
-  int max(ChineseCheckersState &state, int depth, Move &bestMove, bool &timeUp, int alpha, int beta);
-  int min(ChineseCheckersState &state, int depth, Move &bestMove, bool &timeUp, int alpha, int beta);
-  int minimax(ChineseCheckersState &state, int depth, int cplayer, Move &bestMove, bool &timeUp);
-  void ideepening(ChineseCheckersState &state, int cplayer, Move &bestMove);
+
 
   ChineseCheckersState state;
   enum Players { player1, player2 };
