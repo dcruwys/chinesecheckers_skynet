@@ -18,7 +18,7 @@ int main()
 	outFile.open("randomtable.txt");
 	std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<uint64_t> 
+    std::uniform_int_distribution<uint64_t>
         dis(0, std::numeric_limits<uint64_t>::max());
     outFile << "#include <cstdint>\n";
     outFile << "const static uint64_t rands[] = {\n";

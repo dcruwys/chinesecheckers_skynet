@@ -14,6 +14,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include "TT.h"
 
 struct Move {
   unsigned from;
@@ -27,7 +28,7 @@ std::ostream &operator<<(std::ostream &out, const Move &m);
 
 class ChineseCheckersState {
 public:
-  
+  TT table;
   // Initialize with the starting state for a 2 player game
   ChineseCheckersState();
 
@@ -78,6 +79,9 @@ public:
   std::array<int, 81> getBoard() const;
 
   Move heurstic(); //HW1 code
+  uint64_t zHash = 0;
+
+  uint64_t getZHash();
 
   // Translates a sequence of tokens from the move format used to the local move type
   Move translateToLocal(const std::vector<std::string> &tokens) const;

@@ -6,18 +6,20 @@
 
 class TT{
 public:
-	TT();
-	~TT();
 	struct TTEntry
 	{
 		int score=0;
 		int depth=0;
-		int alpha=0;
-		int beta=0;
+		int type=0;
 	};
+	TT();
+	~TT();
 	TTEntry getEntry(uint64_t key);
-	void storeEntry(uint64_t key, int score, int depth, int alpha, int beta);
+	void storeEntry(uint64_t key, int score, int depth, int type);
+	bool inTable(uint64_t key);
     std::unordered_map<uint64_t, TTEntry> table;
+private:
+	
 };
 
 #endif

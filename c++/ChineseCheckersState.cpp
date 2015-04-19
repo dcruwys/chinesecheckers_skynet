@@ -12,6 +12,7 @@
 #include <iostream>
 #include "randomtable.txt"
 #include <cstdint>
+#include "TT.h"
 
 Move::operator std::string() const {
   std::stringstream ss;
@@ -58,7 +59,6 @@ bool ChineseCheckersState::applyMove(Move m) {
   // Ensure the from and to are reasonable
   if (m.from > 80 || m.to > 80 || m.from == m.to)
     return false;
-  uint64_t zHash = 0;
   uint64_t temp = board[m.from];
 
   zHash ^= rands[m.from + getCurrentPlayer()];
@@ -91,8 +91,6 @@ bool ChineseCheckersState::undoMove(Move m) {
   // Ensure the from and to are reasonable
   if (m.from > 80 || m.to > 80 || m.from == m.to)
     return false;
-
-  uint64_t zHash = 0;
   uint64_t temp = board[m.to];
 
   zHash ^= rands[m.to + getCurrentPlayer()];
@@ -116,6 +114,10 @@ bool ChineseCheckersState::undoMove(Move m) {
   }
 
   return true;
+}
+
+uint64_t ChineseCheckersState::getZHash(){
+  return zHash;
 }
 
 bool ChineseCheckersState::gameOver() const {
@@ -227,6 +229,7 @@ void ChineseCheckersState::getMovesJumpStep(std::vector<Move> &moves, unsigned f
     }
     //recursive function
 }
+
 
 std::string ChineseCheckersState::dumpState() const {
   std::stringstream out;

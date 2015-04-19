@@ -1,0 +1,63 @@
+Agent.cpp:234:54: error: no member named 'getZHash' in 'TT'
+  TT::TTEntry tte = state.table.getEntry(state.table.getZHash());
+                                         ~~~~~~~~~~~ ^
+Agent.cpp:235:10: error: invalid operands to binary expression ('TT::TTEntry' and 'nullptr_t')
+  if(tte == nullptr){
+     ~~~ ^  ~~~~~~~
+./ChineseCheckersState.h:25:6: note: candidate function not viable: no known conversion from 'TT::TTEntry' to 'const Move' for 1st argument
+bool operator==(const Move &lhs, const Move &rhs);
+     ^
+Agent.cpp:238:3: error: use of undeclared identifier 'score'
+  score = eval(state, state.getCurrentPlayer())-depth;
+  ^
+Agent.cpp:240:8: error: use of undeclared identifier 'score'
+    if(score <= alpha)
+       ^
+Agent.cpp:241:42: error: no member named 'getZHash' in 'TT'
+      state.table.storeEntry(state.table.getZHash(), score, depth, -1);
+                             ~~~~~~~~~~~ ^
+Agent.cpp:241:54: error: use of undeclared identifier 'score'
+      state.table.storeEntry(state.table.getZHash(), score, depth, -1);
+                                                     ^
+Agent.cpp:242:13: error: use of undeclared identifier 'score'
+    else if(score >= beta)
+            ^
+Agent.cpp:243:42: error: no member named 'getZHash' in 'TT'
+      state.table.storeEntry(state.table.getZHash(), score, depth, 1);
+                             ~~~~~~~~~~~ ^
+Agent.cpp:243:54: error: use of undeclared identifier 'score'
+      state.table.storeEntry(state.table.getZHash(), score, depth, 1);
+                                                     ^
+Agent.cpp:245:42: error: no member named 'getZHash' in 'TT'
+      state.table.storeEntry(state.table.getZHash(), score, depth, 0);
+                             ~~~~~~~~~~~ ^
+Agent.cpp:245:54: error: use of undeclared identifier 'score'
+      state.table.storeEntry(state.table.getZHash(), score, depth, 0);
+                                                     ^
+Agent.cpp:246:12: error: use of undeclared identifier 'score'
+    return score;
+           ^
+Agent.cpp:248:10: error: invalid operands to binary expression ('TT::TTEntry' and 'nullptr_t')
+  if(tte != nullptr && tte.depth >= depth){
+     ~~~ ^  ~~~~~~~
+Agent.cpp:273:6: error: use of undeclared identifier 'value'
+  if(value <= alpha)
+     ^
+Agent.cpp:274:40: error: no member named 'getZHash' in 'TT'
+    state.table.storeEntry(state.table.getZHash()), value, depth, -1);
+                           ~~~~~~~~~~~ ^
+Agent.cpp:274:53: error: use of undeclared identifier 'value'
+    state.table.storeEntry(state.table.getZHash()), value, depth, -1);
+                                                    ^
+Agent.cpp:275:11: error: use of undeclared identifier 'value'
+  else if(value >= beta)
+          ^
+Agent.cpp:276:40: error: no member named 'getZHash' in 'TT'
+    state.table.storeEntry(state.table.getZHash(), value, depth, 1);
+                           ~~~~~~~~~~~ ^
+Agent.cpp:276:52: error: use of undeclared identifier 'value'; did you mean 'false'?
+    state.table.storeEntry(state.table.getZHash(), value, depth, 1);
+                                                   ^~~~~
+                                                   false
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+20 errors generated.
