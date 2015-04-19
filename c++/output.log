@@ -1,0 +1,778 @@
+In file included from Agent.cpp:13:
+./randomtable.txt:3:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+15753461250600204479,
+^
+./randomtable.txt:4:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+17398918110403490929,
+^
+./randomtable.txt:5:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+9706740196396768803,
+^
+./randomtable.txt:6:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+15261723677796955586,
+^
+./randomtable.txt:8:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11859073897349403271,
+^
+./randomtable.txt:9:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+17472453550067676215,
+^
+./randomtable.txt:17:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+17375212539444870499,
+^
+./randomtable.txt:18:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11827799595590915249,
+^
+./randomtable.txt:22:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+9256537432266203879,
+^
+./randomtable.txt:24:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12837962068402838233,
+^
+./randomtable.txt:25:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16127682782202746407,
+^
+./randomtable.txt:26:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11353853787123972319,
+^
+./randomtable.txt:27:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16493753768866824142,
+^
+./randomtable.txt:29:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+14524855003771205466,
+^
+./randomtable.txt:33:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+13380892828648083535,
+^
+./randomtable.txt:36:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11417466740700967448,
+^
+./randomtable.txt:37:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10370720201680469749,
+^
+./randomtable.txt:38:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10024900546524189177,
+^
+./randomtable.txt:39:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11544146439692303424,
+^
+./randomtable.txt:42:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10507891478142884889,
+^
+./randomtable.txt:43:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12626105960330950964,
+^
+./randomtable.txt:48:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11476289557792517447,
+^
+./randomtable.txt:51:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+14994950756757747975,
+^
+./randomtable.txt:53:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16533127247794567580,
+^
+./randomtable.txt:55:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+17238585114287424136,
+^
+./randomtable.txt:57:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+14989320446936840079,
+^
+./randomtable.txt:59:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12890603059646549341,
+^
+./randomtable.txt:62:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+17804650089555174262,
+^
+./randomtable.txt:66:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+14896395787687091955,
+^
+./randomtable.txt:68:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+14961137464602255742,
+^
+./randomtable.txt:70:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+18130666629714069122,
+^
+./randomtable.txt:71:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12625740217594689724,
+^
+./randomtable.txt:74:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11569415953027258353,
+^
+./randomtable.txt:75:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10117255154058142032,
+^
+./randomtable.txt:76:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10062848151217078098,
+^
+./randomtable.txt:79:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12386503480981617729,
+^
+./randomtable.txt:81:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10466185902371092181,
+^
+./randomtable.txt:82:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10473720986283125224,
+^
+./randomtable.txt:89:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+17671750352835870444,
+^
+./randomtable.txt:90:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+17398874387457053829,
+^
+./randomtable.txt:91:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10242490677372039783,
+^
+./randomtable.txt:92:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+14816580432696916446,
+^
+./randomtable.txt:94:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12526139729498873416,
+^
+./randomtable.txt:95:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+9877182920042117681,
+^
+./randomtable.txt:96:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12092474348330072278,
+^
+./randomtable.txt:97:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+13126344013677281069,
+^
+./randomtable.txt:98:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+9860363946266264514,
+^
+./randomtable.txt:99:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+15397283692583278741,
+^
+./randomtable.txt:100:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+9523073023920575085,
+^
+./randomtable.txt:101:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+17966651574684213069,
+^
+./randomtable.txt:103:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+15067589182238624170,
+^
+./randomtable.txt:105:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16468061089206059077,
+^
+./randomtable.txt:110:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12896873294453654699,
+^
+./randomtable.txt:111:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12708111872191452665,
+^
+./randomtable.txt:112:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10126252426947228202,
+^
+./randomtable.txt:113:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16315444307004114532,
+^
+./randomtable.txt:115:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+13098474006695750064,
+^
+./randomtable.txt:117:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10873033040866857724,
+^
+./randomtable.txt:118:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10002083127826564973,
+^
+./randomtable.txt:119:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10013846411690044204,
+^
+./randomtable.txt:121:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12271446800950591337,
+^
+./randomtable.txt:122:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16534914803479476481,
+^
+./randomtable.txt:123:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16710822144092217897,
+^
+./randomtable.txt:124:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+17601509433676011656,
+^
+./randomtable.txt:125:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+14846867803543067492,
+^
+./randomtable.txt:127:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+17785038992502283029,
+^
+./randomtable.txt:133:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+15494699106960959434,
+^
+./randomtable.txt:135:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10343900491015204986,
+^
+./randomtable.txt:136:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11206098869210015866,
+^
+./randomtable.txt:137:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12961934877550915880,
+^
+./randomtable.txt:138:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+18380695561663059450,
+^
+./randomtable.txt:140:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+18101524709451177179,
+^
+./randomtable.txt:142:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10376819510341873266,
+^
+./randomtable.txt:143:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+15176037903014238864,
+^
+./randomtable.txt:146:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16937220386024365404,
+^
+./randomtable.txt:149:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16590827787141691051,
+^
+./randomtable.txt:150:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+13516361144895030517,
+^
+./randomtable.txt:154:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+9410079144863417769,
+^
+./randomtable.txt:156:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+15111819695443536180,
+^
+./randomtable.txt:157:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+15666120543978910262,
+^
+./randomtable.txt:161:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11357367796049019014,
+^
+./randomtable.txt:163:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11700643174476157823,
+^
+./randomtable.txt:164:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16775183736011579149,
+^
+./randomtable.txt:166:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11284565244176720380,
+^
+./randomtable.txt:170:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12913862594006121539,
+^
+./randomtable.txt:171:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10512040527661898826,
+^
+./randomtable.txt:172:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16771324437542576520,
+^
+./randomtable.txt:174:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+13451674154310309356,
+^
+./randomtable.txt:175:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12847572004927361485,
+^
+./randomtable.txt:177:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+13182800466848036973,
+^
+./randomtable.txt:179:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10311031222631536509,
+^
+./randomtable.txt:184:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+13460586852381243846,
+^
+./randomtable.txt:185:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10999417126069560145,
+^
+./randomtable.txt:191:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10761910024219758029,
+^
+./randomtable.txt:192:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10222528933458333779,
+^
+./randomtable.txt:193:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+14011895457766186495,
+^
+./randomtable.txt:194:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+18401652682303693487,
+^
+./randomtable.txt:195:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12374152325215731597,
+^
+./randomtable.txt:197:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12122393998737201603,
+^
+./randomtable.txt:201:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+13976834476568309428,
+^
+./randomtable.txt:202:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+14966868738054383678,
+^
+./randomtable.txt:203:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+9938819722563279437,
+^
+./randomtable.txt:209:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+15338068963581979171,
+^
+./randomtable.txt:211:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+17076505174766938813,
+^
+./randomtable.txt:212:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16941949348193828548,
+^
+./randomtable.txt:213:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16934354346750566875,
+^
+./randomtable.txt:214:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+17366858234205368578,
+^
+./randomtable.txt:215:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16425640663431530553,
+^
+./randomtable.txt:217:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12980256583647850509,
+^
+./randomtable.txt:219:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+9571598934188716903,
+^
+./randomtable.txt:221:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+9842488824070783814,
+^
+./randomtable.txt:223:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16607313620606383975,
+^
+./randomtable.txt:224:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+13371750780973539588,
+^
+./randomtable.txt:225:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11302806930663293792,
+^
+./randomtable.txt:226:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12761040699062134971,
+^
+./randomtable.txt:227:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16842436346390167945,
+^
+./randomtable.txt:230:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+15726395872430651102,
+^
+./randomtable.txt:232:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+13732217920063321630,
+^
+./randomtable.txt:237:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+13984924424263854578,
+^
+./randomtable.txt:238:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+14841670174943602757,
+^
+./randomtable.txt:240:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+9825955464916469810,
+^
+./randomtable.txt:241:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12027465849361910085,
+^
+./randomtable.txt:242:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11233835971960088019,
+^
+./randomtable.txt:244:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12978350418506432162,
+^
+./randomtable.txt:245:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+14111133392191727737,
+^
+125 warnings generated.
+In file included from ChineseCheckersState.cpp:13:
+./randomtable.txt:3:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+15753461250600204479,
+^
+./randomtable.txt:4:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+17398918110403490929,
+^
+./randomtable.txt:5:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+9706740196396768803,
+^
+./randomtable.txt:6:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+15261723677796955586,
+^
+./randomtable.txt:8:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11859073897349403271,
+^
+./randomtable.txt:9:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+17472453550067676215,
+^
+./randomtable.txt:17:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+17375212539444870499,
+^
+./randomtable.txt:18:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11827799595590915249,
+^
+./randomtable.txt:22:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+9256537432266203879,
+^
+./randomtable.txt:24:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12837962068402838233,
+^
+./randomtable.txt:25:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16127682782202746407,
+^
+./randomtable.txt:26:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11353853787123972319,
+^
+./randomtable.txt:27:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16493753768866824142,
+^
+./randomtable.txt:29:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+14524855003771205466,
+^
+./randomtable.txt:33:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+13380892828648083535,
+^
+./randomtable.txt:36:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11417466740700967448,
+^
+./randomtable.txt:37:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10370720201680469749,
+^
+./randomtable.txt:38:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10024900546524189177,
+^
+./randomtable.txt:39:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11544146439692303424,
+^
+./randomtable.txt:42:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10507891478142884889,
+^
+./randomtable.txt:43:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12626105960330950964,
+^
+./randomtable.txt:48:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11476289557792517447,
+^
+./randomtable.txt:51:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+14994950756757747975,
+^
+./randomtable.txt:53:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16533127247794567580,
+^
+./randomtable.txt:55:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+17238585114287424136,
+^
+./randomtable.txt:57:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+14989320446936840079,
+^
+./randomtable.txt:59:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12890603059646549341,
+^
+./randomtable.txt:62:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+17804650089555174262,
+^
+./randomtable.txt:66:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+14896395787687091955,
+^
+./randomtable.txt:68:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+14961137464602255742,
+^
+./randomtable.txt:70:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+18130666629714069122,
+^
+./randomtable.txt:71:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12625740217594689724,
+^
+./randomtable.txt:74:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11569415953027258353,
+^
+./randomtable.txt:75:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10117255154058142032,
+^
+./randomtable.txt:76:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10062848151217078098,
+^
+./randomtable.txt:79:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12386503480981617729,
+^
+./randomtable.txt:81:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10466185902371092181,
+^
+./randomtable.txt:82:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10473720986283125224,
+^
+./randomtable.txt:89:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+17671750352835870444,
+^
+./randomtable.txt:90:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+17398874387457053829,
+^
+./randomtable.txt:91:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10242490677372039783,
+^
+./randomtable.txt:92:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+14816580432696916446,
+^
+./randomtable.txt:94:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12526139729498873416,
+^
+./randomtable.txt:95:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+9877182920042117681,
+^
+./randomtable.txt:96:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12092474348330072278,
+^
+./randomtable.txt:97:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+13126344013677281069,
+^
+./randomtable.txt:98:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+9860363946266264514,
+^
+./randomtable.txt:99:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+15397283692583278741,
+^
+./randomtable.txt:100:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+9523073023920575085,
+^
+./randomtable.txt:101:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+17966651574684213069,
+^
+./randomtable.txt:103:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+15067589182238624170,
+^
+./randomtable.txt:105:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16468061089206059077,
+^
+./randomtable.txt:110:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12896873294453654699,
+^
+./randomtable.txt:111:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12708111872191452665,
+^
+./randomtable.txt:112:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10126252426947228202,
+^
+./randomtable.txt:113:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16315444307004114532,
+^
+./randomtable.txt:115:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+13098474006695750064,
+^
+./randomtable.txt:117:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10873033040866857724,
+^
+./randomtable.txt:118:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10002083127826564973,
+^
+./randomtable.txt:119:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10013846411690044204,
+^
+./randomtable.txt:121:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12271446800950591337,
+^
+./randomtable.txt:122:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16534914803479476481,
+^
+./randomtable.txt:123:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16710822144092217897,
+^
+./randomtable.txt:124:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+17601509433676011656,
+^
+./randomtable.txt:125:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+14846867803543067492,
+^
+./randomtable.txt:127:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+17785038992502283029,
+^
+./randomtable.txt:133:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+15494699106960959434,
+^
+./randomtable.txt:135:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10343900491015204986,
+^
+./randomtable.txt:136:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11206098869210015866,
+^
+./randomtable.txt:137:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12961934877550915880,
+^
+./randomtable.txt:138:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+18380695561663059450,
+^
+./randomtable.txt:140:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+18101524709451177179,
+^
+./randomtable.txt:142:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10376819510341873266,
+^
+./randomtable.txt:143:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+15176037903014238864,
+^
+./randomtable.txt:146:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16937220386024365404,
+^
+./randomtable.txt:149:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16590827787141691051,
+^
+./randomtable.txt:150:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+13516361144895030517,
+^
+./randomtable.txt:154:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+9410079144863417769,
+^
+./randomtable.txt:156:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+15111819695443536180,
+^
+./randomtable.txt:157:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+15666120543978910262,
+^
+./randomtable.txt:161:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11357367796049019014,
+^
+./randomtable.txt:163:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11700643174476157823,
+^
+./randomtable.txt:164:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16775183736011579149,
+^
+./randomtable.txt:166:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11284565244176720380,
+^
+./randomtable.txt:170:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12913862594006121539,
+^
+./randomtable.txt:171:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10512040527661898826,
+^
+./randomtable.txt:172:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16771324437542576520,
+^
+./randomtable.txt:174:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+13451674154310309356,
+^
+./randomtable.txt:175:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12847572004927361485,
+^
+./randomtable.txt:177:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+13182800466848036973,
+^
+./randomtable.txt:179:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10311031222631536509,
+^
+./randomtable.txt:184:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+13460586852381243846,
+^
+./randomtable.txt:185:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10999417126069560145,
+^
+./randomtable.txt:191:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10761910024219758029,
+^
+./randomtable.txt:192:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+10222528933458333779,
+^
+./randomtable.txt:193:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+14011895457766186495,
+^
+./randomtable.txt:194:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+18401652682303693487,
+^
+./randomtable.txt:195:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12374152325215731597,
+^
+./randomtable.txt:197:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12122393998737201603,
+^
+./randomtable.txt:201:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+13976834476568309428,
+^
+./randomtable.txt:202:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+14966868738054383678,
+^
+./randomtable.txt:203:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+9938819722563279437,
+^
+./randomtable.txt:209:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+15338068963581979171,
+^
+./randomtable.txt:211:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+17076505174766938813,
+^
+./randomtable.txt:212:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16941949348193828548,
+^
+./randomtable.txt:213:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16934354346750566875,
+^
+./randomtable.txt:214:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+17366858234205368578,
+^
+./randomtable.txt:215:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16425640663431530553,
+^
+./randomtable.txt:217:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12980256583647850509,
+^
+./randomtable.txt:219:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+9571598934188716903,
+^
+./randomtable.txt:221:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+9842488824070783814,
+^
+./randomtable.txt:223:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16607313620606383975,
+^
+./randomtable.txt:224:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+13371750780973539588,
+^
+./randomtable.txt:225:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11302806930663293792,
+^
+./randomtable.txt:226:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12761040699062134971,
+^
+./randomtable.txt:227:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+16842436346390167945,
+^
+./randomtable.txt:230:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+15726395872430651102,
+^
+./randomtable.txt:232:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+13732217920063321630,
+^
+./randomtable.txt:237:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+13984924424263854578,
+^
+./randomtable.txt:238:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+14841670174943602757,
+^
+./randomtable.txt:240:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+9825955464916469810,
+^
+./randomtable.txt:241:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12027465849361910085,
+^
+./randomtable.txt:242:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+11233835971960088019,
+^
+./randomtable.txt:244:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+12978350418506432162,
+^
+./randomtable.txt:245:1: warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+14111133392191727737,
+^
+ChineseCheckersState.cpp:62:19: error: no viable overloaded operator[] for type 'std::array<int, 81>'
+  int temp = board[getBoard()].from;
+             ~~~~~^~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-unknown-linux-gnu/4.9.2/../../../../include/c++/4.9.2/array:172:7: note: candidate function not viable: no known conversion from 'std::array<int, 81>' to 'size_type' (aka 'unsigned long') for 1st argument
+      operator[](size_type __n) noexcept
+      ^
+/usr/bin/../lib64/gcc/x86_64-unknown-linux-gnu/4.9.2/../../../../include/c++/4.9.2/array:176:7: note: candidate function not viable: no known conversion from 'std::array<int, 81>' to 'size_type' (aka 'unsigned long') for 1st argument
+      operator[](size_type __n) const noexcept
+      ^
+ChineseCheckersState.cpp:66:35: error: member reference base type 'value_type' (aka 'int') is not a structure or union
+  temp = board[getCurrentPlayer()].to;
+         ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+ChineseCheckersState.cpp:95:19: error: no viable overloaded operator[] for type 'std::array<int, 81>'
+  int temp = board[getBoard()].to;
+             ~~~~~^~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-unknown-linux-gnu/4.9.2/../../../../include/c++/4.9.2/array:172:7: note: candidate function not viable: no known conversion from 'std::array<int, 81>' to 'size_type' (aka 'unsigned long') for 1st argument
+      operator[](size_type __n) noexcept
+      ^
+/usr/bin/../lib64/gcc/x86_64-unknown-linux-gnu/4.9.2/../../../../include/c++/4.9.2/array:176:7: note: candidate function not viable: no known conversion from 'std::array<int, 81>' to 'size_type' (aka 'unsigned long') for 1st argument
+      operator[](size_type __n) const noexcept
+      ^
+ChineseCheckersState.cpp:99:35: error: member reference base type 'value_type' (aka 'int') is not a structure or union
+  temp = board[getCurrentPlayer()].from;
+         ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+125 warnings and 4 errors generated.
