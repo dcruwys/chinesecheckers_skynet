@@ -59,11 +59,12 @@ bool ChineseCheckersState::applyMove(Move m) {
   if (m.from > 80 || m.to > 80 || m.from == m.to)
     return false;
   uint64_t zHash = 0;
-  uint64_t temp = board[getBoard()].from;
+  uint64_t temp = board[m.from];
+
   zHash ^= rands[m.from + getCurrentPlayer()];
   zHash ^= rands[temp + getCurrentPlayer()];
 
-  temp = board[getCurrentPlayer()].to;
+  temp = board[m.to];
 
   zHash ^= rands[temp + getCurrentPlayer()];
   zHash ^= rands[m.to + getCurrentPlayer()];
@@ -92,12 +93,12 @@ bool ChineseCheckersState::undoMove(Move m) {
     return false;
 
   uint64_t zHash = 0;
-  uint64_t temp = board[getBoard()].to;
-  
+  uint64_t temp = board[m.to];
+
   zHash ^= rands[m.to + getCurrentPlayer()];
   zHash ^= rands[temp + getCurrentPlayer()];
 
-  temp = board[getCurrentPlayer()].from;
+  temp = board[m.from];
 
   zHash ^= rands[temp + getCurrentPlayer()];
   zHash ^= rands[m.from + getCurrentPlayer()];
