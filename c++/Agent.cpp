@@ -228,114 +228,102 @@ int Agent::eval(ChineseCheckersState &state, int cplayer){
   return p1score - p2score;
 }
 
-//max function for minimax. Returns the MAX player's best state.
 int Agent::max(ChineseCheckersState &state, int depth, Move &bestMove, bool &timeUp, int alpha, int beta){
-  //std::cerr << "Hi" << std::endl;
-  TT::TTEntry tte;
-   int score = eval(state, state.getCurrentPlayer())-depth;
-   if(!state.table.inTable(state.getZHash())){
-    //std::cerr << "current entry is null" << std::endl;
-    state.table.storeEntry(state.getZHash(), score, depth, 1);
+  int score;
+  if(state.table.inTable(state.getZHash())){
+    TT::TTEntry tte = state.table.getEntry(state.getZHash());
+    if(tte.depth >= depth){ // should I set a move here?
+      if(tte.type == 0)
+        return tte.score;
+      if(tte.type == -1 && tte.score > alpha)
+        alpha = tte.score;
+      else if(tte.type == 1 && tte.score < beta)
+        beta = tte.score;
+      if(alpha >= beta)
+        return tte.score;
+    }
   }
-  tte = state.table.getEntry(state.getZHash());
-  
- 
   if(depth == 0 || state.gameOver() || timeUp){
+   score = eval(state, state.getCurrentPlayer());
     if(score <= alpha)
-      state.table.storeEntry(state.getZHash(), score, depth, -1);
-    else if(score >= beta)
       state.table.storeEntry(state.getZHash(), score, depth, 1);
+    else if(score >= beta)
+      state.table.storeEntry(state.getZHash(), score, depth, -1);
     else
       state.table.storeEntry(state.getZHash(), score, depth, 0);
     return score;
-  } 
- // std::cerr << "1" << std::endl;
-  if(state.table.inTable(state.getZHash()) && tte.depth >= depth){
-    if(tte.type == 0)
-      return tte.score;
-    if(tte.type == -1 && tte.score > alpha)
-      alpha = tte.score;
-    else if(tte.type == 1 && tte.score < beta)
-      beta = tte.score;
-    if(alpha >= beta){
-      return tte.score;
-    }
-  }
- // std::cerr << "2" << std::endl;
+   } 
   std::vector<Move> moves;
   state.getMoves(moves);
   Move temp = {0,0};
-  int value = 0;
   for(const auto i: moves){
     state.applyMove(i);
-    //std::cerr << "4" << std::endl;
-    value = min(state, depth -1, temp, timeUp, alpha, beta);
-   // std::cerr << "Hi" << std::endl;
+    score = min(state, depth -1, temp, timeUp, alpha, beta);
     state.undoMove(i);
-    if(value > alpha){
+    if(score > alpha){
       bestMove = i;
-      alpha = value;
+      alpha = score;
     }
-    if(beta <= alpha)
+    else
+      score = alpha;
+
+    if(beta <= alpha )
       break;
   }
-  if(value <= alpha)
-    state.table.storeEntry(state.getZHash(), value, depth, -1);
-  else if(value >= beta)
-    state.table.storeEntry(state.getZHash(), value, depth, 1);
+  if(score <= alpha)
+    state.table.storeEntry(state.getZHash(), score, depth, 1);
+  else if(score >= beta)
+    state.table.storeEntry(state.getZHash(), score, depth, -1);
   else
-    state.table.storeEntry(state.getZHash(), value, depth, 0);
-  return alpha;
+    state.table.storeEntry(state.getZHash(), score, depth, 0);
+  return score;
 }
 
-//min function for minimax. Returns the MIN player's best state.
 int Agent::min(ChineseCheckersState &state, int depth, Move &bestMove, bool &timeUp, int alpha, int beta){
-  TT::TTEntry tte;
-  int score = eval(state, state.getCurrentPlayer())-depth;
-  if(!state.table.inTable(state.getZHash())){
-    //std::cerr << "current entry is null" << std::endl;
-    state.table.storeEntry(state.getZHash(), score, depth, -1);
+  int score;
+  if(state.table.inTable(state.getZHash())){
+    TT::TTEntry tte = state.table.getEntry(state.getZHash());
+    if(tte.depth >= depth){ // should I set a move here?
+      if(tte.type == 0)
+        return tte.score;
+      if(tte.type == -1 && tte.score > alpha)
+        alpha = tte.score;
+      else if(tte.type == 1 && tte.score < beta)
+        beta = tte.score;
+      if(alpha >= beta)
+        return tte.score;
+    }
   }
-  tte = state.table.getEntry(state.getZHash());
   if(depth == 0 || state.gameOver() || timeUp){
+    score = eval(state, state.getCurrentPlayer());
     if(score <= alpha)
-      state.table.storeEntry(state.getZHash(), score, depth, -1);
-    else if(score >= beta)
       state.table.storeEntry(state.getZHash(), score, depth, 1);
+    else if(score >= beta)
+      state.table.storeEntry(state.getZHash(), score, depth, -1);
     else
       state.table.storeEntry(state.getZHash(), score, depth, 0);
     return score;
   } 
-  if((state.table.inTable(state.getZHash())) && (tte.depth >= depth)){
-    if(tte.type == 0)
-      return tte.score;
-    if(tte.type == -1 && tte.score > alpha)
-      alpha = tte.score;
-    else if(tte.type == 1 && tte.score < beta)
-      beta = tte.score;
-    if(alpha >= beta){
-      return tte.score;
-    }
-  }
-  int value = 0;
   std::vector<Move> moves;
   state.getMoves(moves);
   for(const auto i: moves){
     state.applyMove(i);
-    value = max(state, depth -1, bestMove, timeUp, alpha, beta );
+    score = max(state, depth -1, bestMove, timeUp, alpha, beta );
     state.undoMove(i);
-    if(value < beta)
-      beta = value;
+    if(score < beta)
+      beta = score;
+    else
+      score = beta;
     if(beta <= alpha)
       break;
   }
-  if(value <= alpha)
-    state.table.storeEntry(state.getZHash(), value, depth, -1);
-  else if(value >= beta)
-    state.table.storeEntry(state.getZHash(), value, depth, 1);
+  if(score <= alpha)
+    state.table.storeEntry(state.getZHash(), score, depth, 1);
+  else if(score >= beta)
+    state.table.storeEntry(state.getZHash(), score, depth, -1);
   else
-    state.table.storeEntry(state.getZHash(), value, depth, 0);
-  return beta;
+    state.table.storeEntry(state.getZHash(), score, depth, 0);
+  return score;
 }
 //Minimax calls the min and max function.
 int Agent::minimax(ChineseCheckersState &state, int depth, int cplayer, Move &bestMove, bool &timeUp){
