@@ -256,7 +256,7 @@ int Agent::minimax(ChineseCheckersState &state, int depth, bool max, Move &bestM
         state.table.storeEntry(state.getZHash(), value, depth, -1);
       else
         state.table.storeEntry(state.getZHash(), value, depth, 0);
-      return value;
+      return value - depth;
     } 
     if(max){
       value = std::numeric_limits<int>::min();
@@ -294,9 +294,9 @@ int Agent::minimax(ChineseCheckersState &state, int depth, bool max, Move &bestM
       }
     }
     if(value <= alpha)
-      state.table.storeEntry(state.getZHash(), value, depth, 1);
-    else if(value  >= beta)
       state.table.storeEntry(state.getZHash(), value, depth, -1);
+    else if(value  >= beta)
+      state.table.storeEntry(state.getZHash(), value, depth, 1);
     else
       state.table.storeEntry(state.getZHash(), value, depth, 0);
     return value;
