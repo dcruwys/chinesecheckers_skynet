@@ -22,11 +22,9 @@ private:
 
   bool isValidStartGameMessage(const std::vector<std::string> &tokens) const;
   bool isValidMoveMessage(const std::vector<std::string> &tokens) const;
-  int eval(ChineseCheckersState &state, int cplayer);
-  int max(ChineseCheckersState &state, int depth, Move &bestMove, bool &timeUp, int alpha, int beta);
-  int min(ChineseCheckersState &state, int depth, Move &bestMove, bool &timeUp, int alpha, int beta);
-  int minimax(ChineseCheckersState &state, int depth, int cplayer, Move &bestMove, bool &timeUp);
-  void ideepening(ChineseCheckersState &state, int cplayer, Move &bestMove);
+  int eval(ChineseCheckersState &state);
+  int minimax(ChineseCheckersState &state, int depth, bool max, Move &bestMove, bool &timeUp, int alpha, int beta);
+  Move ideepening(ChineseCheckersState &state);
 
   ChineseCheckersState state;
   enum Players { player1, player2 };

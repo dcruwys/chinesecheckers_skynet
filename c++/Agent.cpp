@@ -14,15 +14,16 @@
 #include "TT.h"
 
 Agent::Agent() : name("tables") {}
+bool finished = false;
 
 //uint64_t zHash = 0;
 
 Move Agent::nextMove() {
     // Somehow select your next move
     Move bestMove = {0,0};
-    //bool timeUp = false;
-    ideepening(state, state.getCurrentPlayer(), bestMove);
-    //minimax(state, 3, state.getCurrentPlayer(), bestMove, timeUp);
+    bool timeUp = false;
+    bestMove = ideepening(state);
+    //minimax(state, 3, true, bestMove, timeUp, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
     return bestMove;
 }
 
@@ -170,7 +171,7 @@ void Agent::waitForStart() {
       std::cout << std::endl;
     } else if (response == "EVAL") {
       // somehow evaluate the state like: eval(state, state.getCurrentPlayer())
-      std::cout << eval(state, state.getCurrentPlayer()) << std::endl;
+      std::cout << eval(state) << std::endl;
     } else if (tokens[0] == "MOVE") {
       // Just apply the move
       const Move m = state.translateToLocal(tokens);
@@ -202,7 +203,8 @@ bool Agent::isValidMoveMessage(const std::vector<std::string> &tokens) const {
     tokens[3] == "TO";
 }
 
-int Agent::eval(ChineseCheckersState &state, int cplayer){
+int Agent::eval(ChineseCheckersState &state){
+  int cplayer = state.getCurrentPlayer();
   int winner = state.winner();
   if(cplayer == winner)
     return std::numeric_limits<int>::max();
@@ -228,126 +230,105 @@ int Agent::eval(ChineseCheckersState &state, int cplayer){
   return p1score - p2score;
 }
 
-int Agent::max(ChineseCheckersState &state, int depth, Move &bestMove, bool &timeUp, int alpha, int beta){
-  int score;
-  if(state.table.inTable(state.getZHash())){
-    TT::TTEntry tte = state.table.getEntry(state.getZHash());
-    if(tte.depth >= depth){ // should I set a move here?
-      if(tte.type == 0)
-        return tte.score;
-      if(tte.type == -1 && tte.score > alpha)
-        alpha = tte.score;
-      else if(tte.type == 1 && tte.score < beta)
-        beta = tte.score;
-      if(alpha >= beta)
-        return tte.score;
-    }
-  }
-  if(depth == 0 || state.gameOver() || timeUp){
-   score = eval(state, state.getCurrentPlayer());
-    if(score <= alpha)
-      state.table.storeEntry(state.getZHash(), score, depth, 1);
-    else if(score >= beta)
-      state.table.storeEntry(state.getZHash(), score, depth, -1);
-    else
-      state.table.storeEntry(state.getZHash(), score, depth, 0);
-    return score;
-   } 
-  std::vector<Move> moves;
-  state.getMoves(moves);
-  Move temp = {0,0};
-  for(const auto i: moves){
-    state.applyMove(i);
-    score = min(state, depth -1, temp, timeUp, alpha, beta);
-    state.undoMove(i);
-    if(score > alpha){
-      bestMove = i;
-      alpha = score;
-    }
-    else
-      score = alpha;
-
-    if(beta <= alpha )
-      break;
-  }
-  if(score <= alpha)
-    state.table.storeEntry(state.getZHash(), score, depth, 1);
-  else if(score >= beta)
-    state.table.storeEntry(state.getZHash(), score, depth, -1);
-  else
-    state.table.storeEntry(state.getZHash(), score, depth, 0);
-  return score;
-}
-
-int Agent::min(ChineseCheckersState &state, int depth, Move &bestMove, bool &timeUp, int alpha, int beta){
-  int score;
-  if(state.table.inTable(state.getZHash())){
-    TT::TTEntry tte = state.table.getEntry(state.getZHash());
-    if(tte.depth >= depth){ // should I set a move here?
-      if(tte.type == 0)
-        return tte.score;
-      if(tte.type == -1 && tte.score > alpha)
-        alpha = tte.score;
-      else if(tte.type == 1 && tte.score < beta)
-        beta = tte.score;
-      if(alpha >= beta)
-        return tte.score;
-    }
-  }
-  if(depth == 0 || state.gameOver() || timeUp){
-    score = eval(state, state.getCurrentPlayer());
-    if(score <= alpha)
-      state.table.storeEntry(state.getZHash(), score, depth, 1);
-    else if(score >= beta)
-      state.table.storeEntry(state.getZHash(), score, depth, -1);
-    else
-      state.table.storeEntry(state.getZHash(), score, depth, 0);
-    return score;
-  } 
-  std::vector<Move> moves;
-  state.getMoves(moves);
-  for(const auto i: moves){
-    state.applyMove(i);
-    score = max(state, depth -1, bestMove, timeUp, alpha, beta );
-    state.undoMove(i);
-    if(score < beta)
-      beta = score;
-    else
-      score = beta;
-    if(beta <= alpha)
-      break;
-  }
-  if(score <= alpha)
-    state.table.storeEntry(state.getZHash(), score, depth, 1);
-  else if(score >= beta)
-    state.table.storeEntry(state.getZHash(), score, depth, -1);
-  else
-    state.table.storeEntry(state.getZHash(), score, depth, 0);
-  return score;
-}
 //Minimax calls the min and max function.
-int Agent::minimax(ChineseCheckersState &state, int depth, int cplayer, Move &bestMove, bool &timeUp){
-  if(state.getCurrentPlayer() == cplayer || !timeUp){
-    return max(state, depth, bestMove, timeUp, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
-  } else {
-    return min(state, depth, bestMove, timeUp, std::numeric_limits<int>::max(), std::numeric_limits<int>::min());
+int Agent::minimax(ChineseCheckersState &state, int depth, bool max, Move &bestMove, bool &timeUp, int alpha, int beta){
+  int value;
+  if(!timeUp){
+    if(state.table.inTable(state.getZHash())){
+      TT::TTEntry tte = state.table.getEntry(state.getZHash());
+      if(tte.depth >= depth){ // should I set a move here?
+        if(tte.type == 0)
+          return tte.score;
+        if(tte.type == -1 && tte.score > alpha)
+          alpha = tte.score;
+        else if(tte.type == 1 && tte.score < beta)
+          beta = tte.score;
+        if(alpha >= beta)
+          return tte.score;
+      }
+    }
+    if(depth == 0 || state.gameOver()){
+      finished = true;
+      value = eval(state);
+      if(value <= alpha)
+        state.table.storeEntry(state.getZHash(), value, depth, 1);
+      else if(value >= beta)
+        state.table.storeEntry(state.getZHash(), value, depth, -1);
+      else
+        state.table.storeEntry(state.getZHash(), value, depth, 0);
+      return value;
+    } 
+    if(max){
+      value = std::numeric_limits<int>::min();
+      std::vector<Move> moves;
+      state.getMoves(moves);
+      Move tempMove = {0,0};
+      for(const auto i: moves){
+        state.applyMove(i);
+        int minimaxValue = minimax(state, depth-1, false, tempMove, timeUp, alpha, beta);
+        state.undoMove(i);
+        if(minimaxValue > value){
+          value = minimaxValue;
+          bestMove = i;
+        }
+        alpha = std::max(alpha, value);
+        if(beta <= alpha)
+          break; //PRUNE!!
+      }
+    }
+    else{
+      value = std::numeric_limits<int>::max();
+      std::vector<Move> moves;
+      state.getMoves(moves);
+      Move tempMove = {0,0};
+      for(const auto i: moves){
+        state.applyMove(i);
+        int minimaxValue = minimax(state, depth-1, true, tempMove, timeUp, alpha, beta);
+        state.undoMove(i);
+        if(minimaxValue < value){
+          value = minimaxValue;
+        }
+        beta = std::min(beta, value);
+        if(beta <= alpha)
+          break; //PRUNE!!
+      }
+    }
+    if(value <= alpha)
+      state.table.storeEntry(state.getZHash(), value, depth, 1);
+    else if(value  >= beta)
+      state.table.storeEntry(state.getZHash(), value, depth, -1);
+    else
+      state.table.storeEntry(state.getZHash(), value, depth, 0);
+    return value;
+  }
+  else{
+    //std::cerr << "FINISHED: " << bestMove << std::endl;
+    return eval(state);
   }
 }
 
-void Agent::ideepening(ChineseCheckersState &state, int cplayer, Move &bestMove){
+Move Agent::ideepening(ChineseCheckersState &state){
   bool timeUp = false;
+  Move bestMove = {0,0};
   Move tempMove = {0,0};
   auto duration = std::chrono::milliseconds(10000 - 200); //10s
   auto t = std::thread([&timeUp, duration](){ std::this_thread::sleep_for(duration); timeUp = true; });
  int depth = 0;
  while(!timeUp){  
-    minimax(state, depth, cplayer, tempMove, timeUp);
-    ++depth;
-    bestMove = tempMove;  
+    finished = false;
     std::cerr << depth << std::endl;
+    minimax(state, depth, true, tempMove, timeUp, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
+    ++depth;
+    if(finished){
+      bestMove = tempMove;
+     std::cerr << bestMove << std::endl;
+     std::cerr << tempMove << std::endl;
+    }
   }
   t.join();
+  return bestMove;
 }
+
 
 
 //We need to make a seperate program to generate
