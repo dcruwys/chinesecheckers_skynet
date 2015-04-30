@@ -75,11 +75,13 @@ public:
   // Returns the current player
   int getCurrentPlayer() const;
 
+  int forwardDistance(Move move) const;
+
   // Returns the board
   std::array<int, 81> getBoard() const;
 
   Move heurstic(); //HW1 code
-  uint64_t zHash = 0;
+  
 
   uint64_t getZHash();
 

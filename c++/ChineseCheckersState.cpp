@@ -14,6 +14,13 @@
 #include <cstdint>
 #include "TT.h"
 
+//queue used to remove backward moves
+//Needs to be cleared every time getMoves
+//is called to avoid wasteful memory allocs
+uint64_t zHash = 0;
+
+std::vector<Move> queue; 
+
 Move::operator std::string() const {
   std::stringstream ss;
   ss << "MOVE FROM " << from << " TO " << to;
@@ -23,7 +30,6 @@ Move::operator std::string() const {
 bool operator==(const Move &lhs, const Move &rhs) {
   return lhs.from == rhs.from && lhs.to == rhs.to;
 }
-
 // Lexicographic
 bool operator<(const Move &lhs, const Move &rhs) {
   return lhs.from < rhs.from || (!(rhs.from < lhs.from) && lhs.to < rhs.to);
@@ -42,34 +48,66 @@ ChineseCheckersState::ChineseCheckersState() {
 void ChineseCheckersState::getMoves(std::vector<Move> &moves) const {
   // WARNING: This function must not return duplicate moves
   moves.clear();
+  queue.clear();
 
   for (unsigned i = 0; i < 81; ++i) {
     if (board[i] == currentPlayer) {
-      getMovesSingleStep(moves, i);
+      
+      getMovesSingleStep(queue, i);
       //std::cout << i << std::endl;
-      getMovesJumpStep(moves, i, i);
+      getMovesJumpStep(queue, i, i);
       // Need to add jump moves
+
+      //Remove Backward moves
+      //Note, the forward distance calculator
+      //Might not work for player2
+
     }
   }
-}
+  //std::cerr << "Size of Queue = " <<  queue.size() << std::endl;
+    for(auto &move : queue)
+    {
+        //Calculate forward distance
+        //push the move to the back of the queue vector
+        if(forwardDistance(move) > 0) {
+          moves.push_back(move);
+          //std::cerr << "zHash = " << zHash << " move = " << forwardDistance(move) << std::endl;
+        }
+        //std::cerr << move << std::endl;
 
+      }  
+  if(moves.size() == 0) {
+        moves = queue;
+        //std::cerr << "Queue is empty, returning original move list.\n A backwards or sideways move will be made" << std::endl;
+  }
+}
+int ChineseCheckersState::forwardDistance(Move move) const {
+        int fromRow = move.from / 9;
+        int toRow = move.to / 9;
+        int fromCol = move.from % 9;
+        int toCol = move.to % 9;
+        int mult = 1;
+        if (getCurrentPlayer() == 2)
+            mult = -1;
+        return ((toRow + toCol) - (fromRow + fromCol))*mult;
+  }
 
 
 bool ChineseCheckersState::applyMove(Move m) {
   // Ensure the from and to are reasonable
   if (m.from > 80 || m.to > 80 || m.from == m.to)
     return false;
-  uint64_t temp = board[m.from];
+  //uint64_t temp = board[m.from];
+  int currentPlayer = getCurrentPlayer();
+  zHash ^= rands[m.from * 3 + currentPlayer];
+  zHash ^= rands[m.from * 3];
 
-  zHash ^= rands[m.from + getCurrentPlayer()];
-  zHash ^= rands[temp + getCurrentPlayer()];
+  //temp = board[m.to];
 
-  temp = board[m.to];
+  zHash ^= rands[m.to * 3 + currentPlayer];
+  zHash ^= rands[m.to * 3];
 
-  zHash ^= rands[temp + getCurrentPlayer()];
-  zHash ^= rands[m.to + getCurrentPlayer()];
-
-
+//  std::cerr << "zHash = " << zHash << std::endl;
 
   // Check the move
   // FIXME: This should be uncommented once you have getMoves working!!
@@ -91,15 +129,16 @@ bool ChineseCheckersState::undoMove(Move m) {
   // Ensure the from and to are reasonable
   if (m.from > 80 || m.to > 80 || m.from == m.to)
     return false;
-  uint64_t temp = board[m.to];
+  //uint64_t temp = board[m.to];
+  int currentPlayer = getCurrentPlayer();
 
-  zHash ^= rands[m.to + getCurrentPlayer()];
-  zHash ^= rands[temp + getCurrentPlayer()];
+  zHash ^= rands[m.to * 3 + currentPlayer];
+  zHash ^= rands[m.to * 3];
 
-  temp = board[m.from];
+  //temp = board[m.from];
 
-  zHash ^= rands[temp + getCurrentPlayer()];
-  zHash ^= rands[m.from + getCurrentPlayer()];
+  zHash ^= rands[m.from * 3 + currentPlayer];
+  zHash ^= rands[m.from * 3];
   // Undo the move
   std::swap(board[m.from], board[m.to]);
   swapTurn();
@@ -116,7 +155,10 @@ bool ChineseCheckersState::undoMove(Move m) {
   return true;
 }
 
+
+
 uint64_t ChineseCheckersState::getZHash(){
+  //std::cerr << "zHash = " << zHash << std::endl;
   return zHash;
 }
 
@@ -335,7 +377,7 @@ Move ChineseCheckersState::heurstic(){ //it kinda works but needs to be fixed.
     /*if(currentPlayer == 2){
       currentMax = {80, 80};
     }*/
-    for(auto &i : moves){
+    for(auto &i : moves) {
       unsigned hexRowFrom = i.from / 9 + i.from % 9;
       unsigned hexRowTo = i.to / 9 + i.to % 9;
 

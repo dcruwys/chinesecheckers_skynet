@@ -23,6 +23,10 @@ Move Agent::nextMove() {
     Move bestMove = {0,0};
     bool timeUp = false;
     bestMove = ideepening(state);
+
+    //Experiment to make our player less retarted
+    //minimax(state, 3, true, bestMove, timeUp, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
+    
     //minimax(state, 3, true, bestMove, timeUp, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
     return bestMove;
 }
@@ -203,6 +207,9 @@ bool Agent::isValidMoveMessage(const std::vector<std::string> &tokens) const {
     tokens[3] == "TO";
 }
 
+/////////////////////////////////////////
+///////////EVAL FUNCTION/////////////////
+/////////////////////////////////////////
 int Agent::eval(ChineseCheckersState &state){
   int cplayer = state.getCurrentPlayer();
   int winner = state.winner();
@@ -233,78 +240,73 @@ int Agent::eval(ChineseCheckersState &state){
 //Minimax calls the min and max function.
 int Agent::minimax(ChineseCheckersState &state, int depth, bool max, Move &bestMove, bool &timeUp, int alpha, int beta){
   int value;
-  if(!timeUp){
-    if(state.table.inTable(state.getZHash())){
-      TT::TTEntry tte = state.table.getEntry(state.getZHash());
-      if(tte.depth >= depth){ // should I set a move here?
-        if(tte.type == 0)
-          return tte.score;
-        if(tte.type == -1 && tte.score > alpha)
-          alpha = tte.score;
-        else if(tte.type == 1 && tte.score < beta)
-          beta = tte.score;
-        if(alpha >= beta)
-          return tte.score;
-      }
+  int zHash = state.getZHash();
+  if(state.table.inTable(zHash)){
+    TT::TTEntry tte = state.table.getEntry(zHash);
+    if(tte.depth >= depth){ // should I set a move here?
+      if(tte.type == 0)
+       return tte.score;
+      else if(tte.type == -1 && tte.score > alpha)
+       alpha = tte.score;
+      else if(tte.type == 1 && tte.score < beta)
+        beta = tte.score;
+      if(alpha >= beta)
+         return tte.score;
     }
-    if(depth == 0 || state.gameOver()){
-      finished = true;
-      value = eval(state);
-      if(value <= alpha)
-        state.table.storeEntry(state.getZHash(), value, depth, 1);
-      else if(value >= beta)
-        state.table.storeEntry(state.getZHash(), value, depth, -1);
-      else
-        state.table.storeEntry(state.getZHash(), value, depth, 0);
-      return value - depth;
-    } 
-    if(max){
-      value = std::numeric_limits<int>::min();
-      std::vector<Move> moves;
-      state.getMoves(moves);
-      Move tempMove = {0,0};
-      for(const auto i: moves){
-        state.applyMove(i);
-        int minimaxValue = minimax(state, depth-1, false, tempMove, timeUp, alpha, beta);
-        state.undoMove(i);
-        if(minimaxValue > value){
-          value = minimaxValue;
-          bestMove = i;
-        }
-        alpha = std::max(alpha, value);
-        if(beta <= alpha)
-          break; //PRUNE!!
-      }
-    }
-    else{
-      value = std::numeric_limits<int>::max();
-      std::vector<Move> moves;
-      state.getMoves(moves);
-      Move tempMove = {0,0};
-      for(const auto i: moves){
-        state.applyMove(i);
-        int minimaxValue = minimax(state, depth-1, true, tempMove, timeUp, alpha, beta);
-        state.undoMove(i);
-        if(minimaxValue < value){
-          value = minimaxValue;
-        }
-        beta = std::min(beta, value);
-        if(beta <= alpha)
-          break; //PRUNE!!
-      }
-    }
+  }
+  if(depth == 0 || state.gameOver() || timeUp){
+    finished = true;
+    value = eval(state);
     if(value <= alpha)
-      state.table.storeEntry(state.getZHash(), value, depth, -1);
-    else if(value  >= beta)
-      state.table.storeEntry(state.getZHash(), value, depth, 1);
+      state.table.storeEntry(zHash, value, depth, -1);
+    else if(value >= beta)
+      state.table.storeEntry(zHash, value, depth, 1);
     else
-      state.table.storeEntry(state.getZHash(), value, depth, 0);
+      state.table.storeEntry(zHash, value, depth, 0);
     return value;
+ } 
+  if(max){
+    value = std::numeric_limits<int>::min();
+    std::vector<Move> moves;
+    state.getMoves(moves);
+    Move tempMove = {0,0};
+    for(const auto i: moves){
+      state.applyMove(i);
+      int minimaxValue = minimax(state, depth-1, false, tempMove, timeUp, alpha, beta);
+      state.undoMove(i);
+      if(minimaxValue > value){
+        value = minimaxValue;
+        bestMove = i;
+      }
+      alpha = std::max(alpha, value);
+      if(beta <= alpha)
+        break; //PRUNE!!
+    }
   }
   else{
-    //std::cerr << "FINISHED: " << bestMove << std::endl;
-    return eval(state);
+    value = std::numeric_limits<int>::max();
+    std::vector<Move> moves;
+    state.getMoves(moves);
+    Move tempMove = {0,0};
+    for(const auto i: moves){
+      state.applyMove(i);
+      int minimaxValue = minimax(state, depth-1, true, tempMove, timeUp, alpha, beta);
+      state.undoMove(i);
+      if(minimaxValue < value){
+        value = minimaxValue;
+      }
+      beta = std::min(beta, value);
+      if(beta <= alpha)
+        break; //PRUNE!!
+    }
   }
+  if(value <= alpha)
+    state.table.storeEntry(state.getZHash(), value, depth, -1);
+  else if(value  >= beta)
+    state.table.storeEntry(state.getZHash(), value, depth, 1);
+  else
+    state.table.storeEntry(state.getZHash(), value, depth, 0);
+  return value;
 }
 
 Move Agent::ideepening(ChineseCheckersState &state){
@@ -322,17 +324,9 @@ Move Agent::ideepening(ChineseCheckersState &state){
     if(finished){
       bestMove = tempMove;
      std::cerr << bestMove << std::endl;
-     std::cerr << tempMove << std::endl;
+     //std::cerr << tempMove << std::endl;
     }
   }
   t.join();
   return bestMove;
 }
-
-
-
-//We need to make a seperate program to generate
-//Random numbers and save them to a file for this
-//Program to read.
-
-
