@@ -14,8 +14,6 @@
 #include "TT.h"
 
 Agent::Agent() : name("tables") {}
-bool finished = false;
-
 //uint64_t zHash = 0;
 
 Move Agent::nextMove() {
@@ -23,10 +21,6 @@ Move Agent::nextMove() {
     Move bestMove = {0,0};
     bool timeUp = false;
     bestMove = ideepening(state);
-
-    //Experiment to make our player less retarted
-    //minimax(state, 3, true, bestMove, timeUp, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
-    
     //minimax(state, 3, true, bestMove, timeUp, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
     return bestMove;
 }
@@ -255,7 +249,6 @@ int Agent::minimax(ChineseCheckersState &state, int depth, bool max, Move &bestM
     }
   }
   if(depth == 0 || state.gameOver() || timeUp){
-    finished = true;
     value = eval(state);
     if(value <= alpha)
       state.table.storeEntry(zHash, value, depth, -1);
@@ -317,15 +310,11 @@ Move Agent::ideepening(ChineseCheckersState &state){
   auto t = std::thread([&timeUp, duration](){ std::this_thread::sleep_for(duration); timeUp = true; });
  int depth = 0;
  while(!timeUp){  
-    finished = false;
     std::cerr << depth << std::endl;
     minimax(state, depth, true, tempMove, timeUp, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
     ++depth;
-    if(finished){
-      bestMove = tempMove;
-     std::cerr << bestMove << std::endl;
-     //std::cerr << tempMove << std::endl;
-    }
+    bestMove = tempMove;
+    std::cerr << bestMove << std::endl;
   }
   t.join();
   return bestMove;
