@@ -15,14 +15,43 @@
 
 Agent::Agent() : name("tables") {}
 bool finished = false;
+Move openingbookP1[5] = {{3, 12}, {1, 21}, {18, 22}, {22, 31}, {0, 40}};
+Move openingbookP2[5] = {{77, 68}, {79, 59}, {62, 58}, {58, 49}, {80, 40}};
+int turn = 0;
+// p1Queue.addFirst(new Move(3, 12));
+//         p1Queue.addLast(new Move(1, 21));
+//         p1Queue.addLast(new Move(18, 22));
+//         p1Queue.addLast(new Move(22, 31));
+//         p1Queue.addLast(new Move(0, 40));
 
+//         p2Queue.addFirst(new Move(77, 68));
+//         p2Queue.addLast(new Move(79, 59));
+//         p2Queue.addLast(new Move(62, 58));
+//         p2Queue.addLast(new Move(58, 49));
+//         p2Queue.addLast(new Move(80, 40));
 //uint64_t zHash = 0;
-
 Move Agent::nextMove() {
     // Somehow select your next move
-    Move bestMove = {0,0};
+    Move bestMove = {0, 0};
     bool timeUp = false;
-    bestMove = ideepening(state);
+    //Opening book moves
+    //Checks who the current player is
+    //And executes those 'finely crafted' moves
+    if(turn < 5){
+      if(state.getCurrentPlayer() == 1){
+        bestMove = openingbookP1[turn];
+        turn++;
+      }
+      if(state.getCurrentPlayer() == 2){
+        bestMove = openingbookP2[turn];
+        turn++;
+      } 
+      
+      std::cerr << "Opening book move!" << std::endl;
+    } else {
+      std::cerr << "ideepening running?" << std::endl;
+      bestMove = ideepening(state);
+    }
 
     //Experiment to make our player less retarted
     //minimax(state, 3, true, bestMove, timeUp, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
