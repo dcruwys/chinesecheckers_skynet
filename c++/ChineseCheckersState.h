@@ -19,8 +19,11 @@
 struct Move {
   unsigned from;
   unsigned to;
+  int score;
 
   operator std::string() const; //conversion operator
+
+  bool operator<(const Move &a);
 };
 bool operator==(const Move &lhs, const Move &rhs);
 bool operator<(const Move &lhs, const Move &rhs);
@@ -76,6 +79,7 @@ public:
   int getCurrentPlayer() const;
 
   int forwardDistance(Move move) const;
+
 
   // Returns the board
   std::array<int, 81> getBoard() const;

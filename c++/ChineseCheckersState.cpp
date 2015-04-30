@@ -21,11 +21,14 @@ uint64_t zHash = 0;
 
 std::vector<Move> queue; 
 
-Move::operator std::string() const {
+Move::operator std::string() const{
   std::stringstream ss;
   ss << "MOVE FROM " << from << " TO " << to;
   return ss.str();
 }
+bool Move::operator<(const Move &a){
+    return score < a.score;
+  }
 
 bool operator==(const Move &lhs, const Move &rhs) {
   return lhs.from == rhs.from && lhs.to == rhs.to;

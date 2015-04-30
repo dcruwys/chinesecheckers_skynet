@@ -25,7 +25,7 @@ private:
   int eval(ChineseCheckersState &state);
   int minimax(ChineseCheckersState &state, int depth, bool max, Move &bestMove, bool &timeUp, int alpha, int beta);
   Move ideepening(ChineseCheckersState &state);
-
+  void hhInsert(Move aMove, int depth);
   ChineseCheckersState state;
   enum Players { player1, player2 };
   Players current_player;

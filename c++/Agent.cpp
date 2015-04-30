@@ -12,23 +12,16 @@
 #include <unordered_map>
 #include "randomtable.txt" //Import array of random values
 #include "TT.h"
+#include <algorithm>
 
 Agent::Agent() : name("tables") {}
-bool finished = false;
-Move openingbookP1[5] = {{3, 12}, {1, 21}, {18, 22}, {22, 31}, {0, 40}};
-Move openingbookP2[5] = {{77, 68}, {79, 59}, {62, 58}, {58, 49}, {80, 40}};
+//Opening Book Arrays
+//const int obSize = 7;
+Move openingbookP1[6] = {{3, 12}, {1, 21}, {18, 22}, {22, 31}, {0, 40}, {27,28}};
+Move openingbookP2[6] = {{77, 68}, {79, 59}, {62, 58}, {58, 49}, {80, 40}, {53, 52}};
+//History Heuristic table
+int hh[81][81] = {}; 
 int turn = 0;
-// p1Queue.addFirst(new Move(3, 12));
-//         p1Queue.addLast(new Move(1, 21));
-//         p1Queue.addLast(new Move(18, 22));
-//         p1Queue.addLast(new Move(22, 31));
-//         p1Queue.addLast(new Move(0, 40));
-
-//         p2Queue.addFirst(new Move(77, 68));
-//         p2Queue.addLast(new Move(79, 59));
-//         p2Queue.addLast(new Move(62, 58));
-//         p2Queue.addLast(new Move(58, 49));
-//         p2Queue.addLast(new Move(80, 40));
 //uint64_t zHash = 0;
 Move Agent::nextMove() {
     // Somehow select your next move
@@ -37,7 +30,7 @@ Move Agent::nextMove() {
     //Opening book moves
     //Checks who the current player is
     //And executes those 'finely crafted' moves
-    if(turn < 5){
+    if(turn < 6){
       if(state.getCurrentPlayer() == 1){
         bestMove = openingbookP1[turn];
         turn++;
@@ -52,11 +45,6 @@ Move Agent::nextMove() {
       std::cerr << "ideepening running?" << std::endl;
       bestMove = ideepening(state);
     }
-
-    //Experiment to make our player less retarted
-    //minimax(state, 3, true, bestMove, timeUp, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
-    
-    //minimax(state, 3, true, bestMove, timeUp, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
     return bestMove;
 }
 
@@ -235,6 +223,12 @@ bool Agent::isValidMoveMessage(const std::vector<std::string> &tokens) const {
   return tokens.size() == 5 && tokens[0] == "MOVE" && tokens[1] == "FROM" &&
     tokens[3] == "TO";
 }
+/////////////////////////////////////////
+///////History Heuristic Control/////////
+/////////////////////////////////////////
+void Agent::hhInsert(Move aMove, int depth){
+  hh[aMove.from][aMove.to] = depth;
+}
 
 /////////////////////////////////////////
 ///////////EVAL FUNCTION/////////////////
@@ -266,12 +260,34 @@ int Agent::eval(ChineseCheckersState &state){
   return p1score - p2score;
 }
 
-//Minimax calls the min and max function.
+//Minimax IS the min and max function. Contains Alpha Beta
+////////////////////////////////////////////
+////////Minimax With Alpha Beta/////////////
+////////////////////////////////////////////
 int Agent::minimax(ChineseCheckersState &state, int depth, bool max, Move &bestMove, bool &timeUp, int alpha, int beta){
   int value;
+  //Get Zobrist Hash value
   int zHash = state.getZHash();
+  //History Heuristics rating
+  int rating[6551] = {};
+  //Assign a history heuristic score to all the moves
+  std::vector<Move> moves;
+  state.getMoves(moves);
+  
+  int i = 0;
+  for(auto m : moves){
+    m.score = hh[m.from][m.to];
+  }
+  //Sort the table
+  std::sort(moves.begin(), moves.end());
+
+  //Transposition table stuff
   if(state.table.inTable(zHash)){
     TT::TTEntry tte = state.table.getEntry(zHash);
+//    Get moves, store in a vector
+    std::vector<Move> moves;
+    state.getMoves(moves);
+
     if(tte.depth >= depth){ // should I set a move here?
       if(tte.type == 0)
        return tte.score;
@@ -279,12 +295,15 @@ int Agent::minimax(ChineseCheckersState &state, int depth, bool max, Move &bestM
        alpha = tte.score;
       else if(tte.type == 1 && tte.score < beta)
         beta = tte.score;
-      if(alpha >= beta)
+      if(alpha >= beta){
+
+        //Insert the item to the History Heuristic Table
+        hhInsert(bestMove, depth); 
          return tte.score;
+      }
     }
   }
   if(depth == 0 || state.gameOver() || timeUp){
-    finished = true;
     value = eval(state);
     if(value <= alpha)
       state.table.storeEntry(zHash, value, depth, -1);
@@ -314,8 +333,8 @@ int Agent::minimax(ChineseCheckersState &state, int depth, bool max, Move &bestM
   }
   else{
     value = std::numeric_limits<int>::max();
-    std::vector<Move> moves;
-    state.getMoves(moves);
+    // std::vector<Move> moves;
+    // state.getMoves(moves);
     Move tempMove = {0,0};
     for(const auto i: moves){
       state.applyMove(i);
@@ -329,6 +348,7 @@ int Agent::minimax(ChineseCheckersState &state, int depth, bool max, Move &bestM
         break; //PRUNE!!
     }
   }
+
   if(value <= alpha)
     state.table.storeEntry(state.getZHash(), value, depth, -1);
   else if(value  >= beta)
@@ -346,15 +366,11 @@ Move Agent::ideepening(ChineseCheckersState &state){
   auto t = std::thread([&timeUp, duration](){ std::this_thread::sleep_for(duration); timeUp = true; });
  int depth = 0;
  while(!timeUp){  
-    finished = false;
     std::cerr << depth << std::endl;
     minimax(state, depth, true, tempMove, timeUp, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
     ++depth;
-    if(finished){
-      bestMove = tempMove;
-     std::cerr << bestMove << std::endl;
-     //std::cerr << tempMove << std::endl;
-    }
+    bestMove = tempMove;
+    std::cerr << bestMove << std::endl;
   }
   t.join();
   return bestMove;
