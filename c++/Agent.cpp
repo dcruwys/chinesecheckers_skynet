@@ -269,12 +269,11 @@ int Agent::minimax(ChineseCheckersState &state, int depth, bool max, Move &bestM
   if(!timeUp){
     int value;
     //Get Zobrist Hash value
-    //int zHash = state.getZHash();
+    int zHash = state.getZHash();
     //Assign a history heuristic score to all the moves
     std::vector<Move> moves;
     state.getMoves(moves);
-    
-    //int i = 0;
+  
    // for(auto m : moves){
      // m.score = hh[m.from][m.to];
    // }
@@ -282,7 +281,7 @@ int Agent::minimax(ChineseCheckersState &state, int depth, bool max, Move &bestM
     //std::sort(moves.begin(), moves.end());
 
     //Transposition table stuff
-    /*if(state.table.inTable(zHash)){
+    if(state.table.inTable(zHash)){
       TT::TTEntry tte = state.table.getEntry(zHash);
   //    Get moves, store in a vector
       std::vector<Move> moves;
@@ -296,13 +295,12 @@ int Agent::minimax(ChineseCheckersState &state, int depth, bool max, Move &bestM
         else if(tte.type == 1 && tte.score < beta)
           beta = tte.score;
         if(alpha >= beta){
-
           //Insert the item to the History Heuristic Table
           hhInsert(bestMove, depth); 
-           return tte.score;
+          return tte.score;
         }
       }
-    }*/
+    }
     
     if(depth == 0 || state.gameOver()){
       value = eval(state);
@@ -345,14 +343,12 @@ int Agent::minimax(ChineseCheckersState &state, int depth, bool max, Move &bestM
           break;
       }
     }
-
-    /*if(value <= alpha)
+    if(value <= alpha)
       state.table.storeEntry(state.getZHash(), value, depth, -1);
     else if(value  >= beta)
       state.table.storeEntry(state.getZHash(), value, depth, 1);
     else
       state.table.storeEntry(state.getZHash(), value, depth, 0);
-    */
     return value;
   }
   else 
@@ -366,11 +362,14 @@ Move Agent::ideepening(ChineseCheckersState &state){
  auto t = std::thread([&timeUp, duration](){ std::this_thread::sleep_for(duration); timeUp = true; });
  int depth = 1;
  Move bestMove = {0,0};
+ Move tempMove = {0,0};
  while(!timeUp){  
   inital = depth;
     std::cerr << depth << std::endl;
-    int value = minimax(state, depth, true, bestMove, timeUp, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
+    int value = minimax(state, depth, true, tempMove, timeUp, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
     ++depth;
+    if(value > std::numeric_limits<int>::min())
+      bestMove = tempMove;
   }
   t.join();
   if(debug)
