@@ -255,7 +255,7 @@ int Agent::eval(ChineseCheckersState &state){
         p2score += currentlocation;
     }
   }
-  if (rootPlayer == 2){ //flipping the score seems to work.
+  if (rootPlayer == 1){ //flipping the score seems to work.
     return p2score - p1score;
   }
   return p1score - p2score;
@@ -373,5 +373,7 @@ Move Agent::ideepening(ChineseCheckersState &state){
     ++depth;
   }
   t.join();
+  if(debug)
+    std::cerr << "Best " << bestMove << std::endl;
   return bestMove;
 }
