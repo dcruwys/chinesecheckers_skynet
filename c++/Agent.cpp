@@ -23,11 +23,14 @@ Move openingbookP2[6] = {{77, 68}, {79, 59}, {62, 58}, {58, 49}, {80, 40}, {53, 
 int hh[81][81] = {};  //Move to in class
 int turn = 0;
 int rootPlayer;
+int inital = 0;
+bool debug = true;
 //uint64_t zHash = 0;
 Move Agent::nextMove() {
     // Somehow select your next move
     Move bestMove = {0, 0};
     bool timeUp = false;
+    //int value = minimax(state, 3, true, bestMove, timeUp, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
     //Opening book moves
     //Checks who the current player is
     //And executes those 'finely crafted' moves
@@ -40,12 +43,11 @@ Move Agent::nextMove() {
         bestMove = openingbookP2[turn];
         turn++;
       } 
-      
-      std::cerr << "Opening book move!" << std::endl;
     } else {
-      std::cerr << "ideepening running?" << std::endl;
       bestMove = ideepening(state);
     }
+    if(!state.isValidMove(bestMove))
+        bestMove = ideepening(state);
     return bestMove;
 }
 
@@ -235,9 +237,8 @@ void Agent::hhInsert(Move aMove, int depth){
 ///////////EVAL FUNCTION/////////////////
 /////////////////////////////////////////
 int Agent::eval(ChineseCheckersState &state){
-  int cplayer = rootPlayer;
   int winner = state.winner();
-  if(cplayer == winner)
+  if(rootPlayer == winner)
     return std::numeric_limits<int>::max();
   else if(winner != -1)
     return std::numeric_limits<int>::min();
@@ -247,15 +248,14 @@ int Agent::eval(ChineseCheckersState &state){
   std::array<int, 81> board = state.getBoard();
   for(int i = 0; i < 81; ++i){
     if (board[i] != 0) {
-      int currentlocation = (i % 9 + i / 9);
+      int currentlocation = ((i % 9) + (i / 9));
       if (board[i] == 1)
         p1score += 16 - currentlocation;
       else
         p2score += currentlocation;
     }
   }
-
-  if (cplayer == 2){
+  if (rootPlayer == 2){ //flipping the score seems to work.
     return p2score - p1score;
   }
   return p1score - p2score;
@@ -269,15 +269,15 @@ int Agent::minimax(ChineseCheckersState &state, int depth, bool max, Move &bestM
   if(!timeUp){
     int value;
     //Get Zobrist Hash value
-    int zHash = state.getZHash();
+    //int zHash = state.getZHash();
     //Assign a history heuristic score to all the moves
     std::vector<Move> moves;
     state.getMoves(moves);
     
-    int i = 0;
-    for(auto m : moves){
-      m.score = hh[m.from][m.to];
-    }
+    //int i = 0;
+   // for(auto m : moves){
+     // m.score = hh[m.from][m.to];
+   // }
     //Sort the table
     //std::sort(moves.begin(), moves.end());
 
@@ -315,38 +315,34 @@ int Agent::minimax(ChineseCheckersState &state, int depth, bool max, Move &bestM
       return value;
    } 
     if(max){
-      value = std::numeric_limits<int>::min();
-      std::vector<Move> moves;
-      state.getMoves(moves);
+      //state.getMoves(moves);
       Move tempMove = {0,0};
       for(const auto i: moves){
         state.applyMove(i);
-        int minimaxValue = minimax(state, depth-1, false, tempMove, timeUp, alpha, beta);
+        value = minimax(state, depth-1, false, tempMove, timeUp, alpha, beta);
         state.undoMove(i);
-        if(minimaxValue > value && !timeUp){
-          value = minimaxValue;
+        if(depth == inital && debug == true)
+           std::cerr << "Next Move: " << i << " " << value << std::endl;
+        if(value > alpha){
           bestMove = i;
+          alpha = value;
         }
-        alpha = std::max(alpha, value);
-        if(beta <= alpha)
-          break; //PRUNE!!
+        if(alpha >= beta)
+          break;
       }
     }
     else{
-      value = std::numeric_limits<int>::min();
-      // std::vector<Move> moves;
-      // state.getMoves(moves);
-      Move tempMove = {0,0};
+      //std::cerr << "Min" << std::endl;
+      //std::vector<Move> moves;
+      //state.getMoves(moves);
       for(const auto i: moves){
         state.applyMove(i);
-        int minimaxValue = minimax(state, depth-1, true, tempMove, timeUp, alpha, beta);
+        value = minimax(state, depth-1, true, bestMove, timeUp, alpha, beta);
         state.undoMove(i);
-        if(minimaxValue > value){
-          value = minimaxValue;
-        }
-        beta = std::min(beta, value);
-        if(beta <= alpha)
-          break; //PRUNE!!
+        if(value < beta)
+          beta = value;
+        if(alpha >= beta)
+          break;
       }
     }
 
@@ -364,19 +360,17 @@ int Agent::minimax(ChineseCheckersState &state, int depth, bool max, Move &bestM
 }
 
 Move Agent::ideepening(ChineseCheckersState &state){
-  bool timeUp = false;
-  Move bestMove = {0,0};
-  Move tempMove = {0,0};
-  auto duration = std::chrono::milliseconds(10000 - 200); //10s
-  auto t = std::thread([&timeUp, duration](){ std::this_thread::sleep_for(duration); timeUp = true; });
- int depth = 1;
+ bool timeUp = false;
  rootPlayer = state.getCurrentPlayer();
+ auto duration = std::chrono::milliseconds(6000); //10s
+ auto t = std::thread([&timeUp, duration](){ std::this_thread::sleep_for(duration); timeUp = true; });
+ int depth = 1;
+ Move bestMove = {0,0};
  while(!timeUp){  
+  inital = depth;
     std::cerr << depth << std::endl;
-    int value = minimax(state, depth, true, tempMove, timeUp, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
+    int value = minimax(state, depth, true, bestMove, timeUp, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
     ++depth;
-    bestMove = tempMove; //if time up dont return
-    std::cerr << bestMove << " " << value << std::endl;
   }
   t.join();
   return bestMove;
