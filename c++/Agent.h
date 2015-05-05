@@ -22,7 +22,7 @@ private:
 
   bool isValidStartGameMessage(const std::vector<std::string> &tokens) const;
   bool isValidMoveMessage(const std::vector<std::string> &tokens) const;
-  int eval(ChineseCheckersState &state);
+  int eval(ChineseCheckersState &state, int depth);
   int minimax(ChineseCheckersState &state, int depth, bool max, Move &bestMove, bool &timeUp, int alpha, int beta);
   Move ideepening(ChineseCheckersState &state);
   void hhInsert(Move aMove, int depth);

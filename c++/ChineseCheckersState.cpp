@@ -13,6 +13,7 @@
 #include "randomtable.txt"
 #include <cstdint>
 #include "TT.h"
+#include <limits>
 
 //queue used to remove backward moves
 //Needs to be cleared every time getMoves
@@ -74,7 +75,7 @@ void ChineseCheckersState::getMoves(std::vector<Move> &moves) const {
         //push the move to the back of the queue vector
         if(forwardDistance(move) > 0) {
           moves.push_back(move);
-          //std::cerr << "zHash = " << zHash << " move = " << forwardDistance(move) << std::endl;
+          //std::cerr << "zHash [getMoves] = " << zHash << " move = " << forwardDistance(move) << std::endl;
         }
         //std::cerr << move << std::endl;
 
@@ -110,7 +111,7 @@ bool ChineseCheckersState::applyMove(Move m) {
   zHash ^= rands[m.to * 3 + currentPlayer];
   zHash ^= rands[m.to * 3];
 
-//  std::cerr << "zHash = " << zHash << std::endl;
+  //std::cerr << "zHash [applyMove] = " << zHash << std::endl;
 
   // Check the move
   // FIXME: This should be uncommented once you have getMoves working!!
@@ -142,6 +143,8 @@ bool ChineseCheckersState::undoMove(Move m) {
 
   zHash ^= rands[m.from * 3 + currentPlayer];
   zHash ^= rands[m.from * 3];
+  
+  //std::cerr << "zHash [undoMove] = " << zHash << std::endl;
   // Undo the move
   std::swap(board[m.from], board[m.to]);
   swapTurn();
@@ -161,7 +164,7 @@ bool ChineseCheckersState::undoMove(Move m) {
 
 
 uint64_t ChineseCheckersState::getZHash(){
-  //std::cerr << "zHash = " << zHash << std::endl;
+ // std::cerr << "zHash [getZHash] = " << zHash << std::endl;
   return zHash;
 }
 
