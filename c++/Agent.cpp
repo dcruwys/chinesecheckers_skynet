@@ -230,7 +230,7 @@ bool Agent::isValidMoveMessage(const std::vector<std::string> &tokens) const {
 ///////History Heuristic Control/////////
 /////////////////////////////////////////
 void Agent::hhInsert(Move aMove, int depth){
-  hh[aMove.from][aMove.to] = depth;
+  hh[aMove.from][aMove.to] += depth;
 }
 
 /////////////////////////////////////////
@@ -261,6 +261,15 @@ int Agent::eval(ChineseCheckersState &state, int depth){
   return p1score - p2score - depth;
 }
 
+void Agent::sort(std::vector<Move> &moves){
+  if(rootPlayer == state.getCurrentPlayer()){
+    for(auto &m : moves){
+      m.score = hh[m.from][m.to];
+    }
+    std::sort(moves.begin(), moves.end(), compareScore);
+  }
+}
+
 //Minimax IS the min and max function. Contains Alpha Beta
 ////////////////////////////////////////////
 ////////Minimax With Alpha Beta/////////////
@@ -274,23 +283,12 @@ int Agent::minimax(ChineseCheckersState &state, int depth, bool max, Move &bestM
     //Assign a history heuristic score to all the moves
     std::vector<Move> moves;
     state.getMoves(moves);
-  
-   // for(auto m : moves){
-     // m.score = hh[m.from][m.to];
-   // }
-    //Sort the table
-    //std::sort(moves.begin(), moves.end());
-
+    sort(moves);
     //Transposition table stuff
     if(state.table.inTable(zHash)){
       TT::TTEntry tte = state.table.getEntry(zHash);
- //
-      std::cerr << "zHash [minimax] = " << zHash << " found in TT" << std::endl;
-  //    Get moves, store in a vector
-      std::vector<Move> moves;
-      state.getMoves(moves);
-
-     if(tte.depth >= depth){ // should I set a move here?
+      //std::cerr << "zHash [minimax] = " << zHash << " found in TT" << std::endl;
+     if(tte.depth >= depth){
         if(tte.type == 0)
          return tte.score;
         else if(tte.type == -1 && tte.score > alpha)
@@ -298,9 +296,6 @@ int Agent::minimax(ChineseCheckersState &state, int depth, bool max, Move &bestM
         else if(tte.type == 1 && tte.score < beta)
           beta = tte.score;
         if(alpha >= beta){
-          //Insert the item to the History Heuristic Table
-		   std::cerr << "Move " << bestMove << " added to HHtable. It has depth " << depth << std::endl;
-          hhInsert(bestMove, depth); 
           return tte.score;
         }
       }
@@ -316,34 +311,34 @@ int Agent::minimax(ChineseCheckersState &state, int depth, bool max, Move &bestM
       return value;
    } 
     if(max){
-      //state.getMoves(moves);
-      Move tempMove = {0,0};
       for(const auto i: moves){
         state.applyMove(i);
-        value = minimax(state, depth-1, false, tempMove, timeUp, alpha, beta);
+        value = minimax(state, depth-1, false, bestMove, timeUp, alpha, beta);
         state.undoMove(i);
         if(depth == inital && debug == true)
-           std::cerr << "Next Move: " << i << " " << value << std::endl;
+           std::cerr << "Next Move: " << i << " " << value << " " << i.score << std::endl;
         if(value > alpha){
-          bestMove = i;
+          if(inital == depth)
+            bestMove = i;
           alpha = value;
         }
-        if(alpha >= beta)
-          break;
+        if(alpha >= beta){
+          hhInsert(i, depth); 
+          return value;
+        }
       }
     }
     else{
-      //std::cerr << "Min" << std::endl;
-      //std::vector<Move> moves;
-      //state.getMoves(moves);
       for(const auto i: moves){
         state.applyMove(i);
         value = minimax(state, depth-1, true, bestMove, timeUp, alpha, beta);
         state.undoMove(i);
         if(value < beta)
           beta = value;
-        if(alpha >= beta)
-          break;
+        if(alpha >= beta){
+          hhInsert(i, depth); 
+          return value;
+        }
       }
     }
     if(value <= alpha)
@@ -367,7 +362,7 @@ Move Agent::ideepening(ChineseCheckersState &state){
  Move bestMove = {0,0};
  Move tempMove = {0,0};
  while(!timeUp){  
-  inital = depth;
+    inital = depth;
     std::cerr << depth << std::endl;
     int value = minimax(state, depth, true, tempMove, timeUp, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
     ++depth;

@@ -27,10 +27,10 @@ Move::operator std::string() const{
   ss << "MOVE FROM " << from << " TO " << to;
   return ss.str();
 }
-bool Move::operator<(const Move &a){
-    return score < a.score;
-  }
 
+bool compareScore(const Move &a, const Move &b){
+  return a.score > b.score;
+}
 bool operator==(const Move &lhs, const Move &rhs) {
   return lhs.from == rhs.from && lhs.to == rhs.to;
 }

@@ -19,15 +19,13 @@
 struct Move {
   unsigned from;
   unsigned to;
-  int score;
-
+  unsigned score;
   operator std::string() const; //conversion operator
-
-  bool operator<(const Move &a);
 };
 bool operator==(const Move &lhs, const Move &rhs);
 bool operator<(const Move &lhs, const Move &rhs);
 std::ostream &operator<<(std::ostream &out, const Move &m);
+bool compareScore(const Move &a, const Move &b);
 
 class ChineseCheckersState {
 public:
