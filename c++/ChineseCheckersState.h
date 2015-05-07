@@ -91,6 +91,7 @@ public:
   Move translateToLocal(const std::vector<std::string> &tokens) const;
   bool isAdded(std::vector<Move> &moves, Move move) const;
 
+  int eval();
 private:
   std::array<int, 81> board;
 

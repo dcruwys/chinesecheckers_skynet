@@ -80,7 +80,7 @@ Move UCB1::UCB1move(ChineseCheckersState &state, bool policy){
      for(auto anArm : theArms) { if(anArm.totalScore > bestArm.totalScore) {bestArm = anArm; std::cerr << "New BestArm!" << std::endl; } }
 	
 	 //Call on the UCB1 policy functions
-	 double payOff = randomPolicies(bestArm.m, policy); //
+	 double payOff = randomPolicies(bestArm.m, policy, state); //
 	 
 	 //int payOff = 1; //Don't leave this...UCB1 will be useless
 	 bestArm.totalScore += payOff;
@@ -109,15 +109,13 @@ unsigned getRand()
    return distribution(generator);
 }
 //Helper Functions
-double UCB1::randomPolicies(Move aMove, bool policyType){
+double UCB1::randomPolicies(Move aMove, bool policyType, ChineseCheckersState &state){
    //Call a state
    //
    //NOTE, WE NEED a new CCState, or else more work will be needed
-  ChineseCheckersState state = new ChineseCheckersState();
-  //Get some data
   state.applyMove(aMove);
   std::vector<Move> moves;
-  state.getMoves();
+  state.getMoves(moves);
 
   //Increase our totalSamples, as another game is being sampled
   totalSample++;
@@ -157,7 +155,7 @@ double UCB1::randomPolicies(Move aMove, bool policyType){
 	  //Check if the game is over, if so run eval function
 	  if(state.gameOver()) return (double) state.eval();
 
-	  state.getMoves(); //We need to get the moves each time this time
+	  state.getMoves(moves); //We need to get the moves each time this time
 	  if(getRand() > 0.15){
 	  //Note, Again, this Might be wrong!!!
 	  std::sort(moves.begin(), moves.end(), [](const Move &a, const Move &b){return  a.score < b.score;});

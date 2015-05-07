@@ -12,7 +12,7 @@ public:
    int totalSample = 1;
    Move UCB1move(ChineseCheckersState &state, bool policy);
   // int moveDistance(Move aMove);
-   double randomPolicies(Move aMove, bool policyType);
+   double randomPolicies(Move aMove, bool policyType, ChineseCheckersState &state);
    int getTotalSamples();   
    UCB1();
    ~UCB1();
