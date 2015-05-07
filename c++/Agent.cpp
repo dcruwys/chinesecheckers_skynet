@@ -13,7 +13,7 @@
 #include "randomtable.txt" //Import array of random values
 #include "TT.h"
 #include <algorithm>
-
+#include "UCB1.h"
 Agent::Agent() : name("tables") {}
 //Opening Book Arrays
 //const int obSize = 7;
@@ -43,12 +43,23 @@ Move Agent::nextMove() {
         bestMove = openingbookP2[turn];
         turn++;
       } 
-    } else {
+    } 
+	//Disabled for UCB1
+	/*else {
       bestMove = ideepening(state);
     }
     if(!state.isValidMove(bestMove))
         bestMove = ideepening(state);
-    return bestMove;
+    return bestMove;*/
+   
+	//Determine the policy type for player to use
+   bool policyType = state.getCurrentPlayer() == 1 ? 0 : 1; 
+   UCB1 aUCBAgent; //Not sure if this should go in header
+   std::cerr << "Number of sims done with UCB1: " << aUCBAgent.getTotalSamples() << std::endl;
+   //Return the move UCB1 found
+   return aUCBAgent.UCB1move(state, policyType);
+
+	
 }
 
 void Agent::playGame() {
@@ -269,6 +280,16 @@ void Agent::sort(std::vector<Move> &moves){
     std::sort(moves.begin(), moves.end(), compareScore);
   }
 }
+////////////////////////////////////////////
+//////////////UCB1/////////////////////////
+///////////////////////////////////////////
+
+/*Move Agent::UCB1Simple(ChineseCheckersState &state){
+   //Determine the policy type for player to use
+   bool policyType = state.getCurrentPlayer() == 1 ? 0 : 1; 
+   UCB1 aUCBAgent(); //Not sure if this should go in header
+   return aUCBAgent.UCB1move(state, policyType);
+}*/
 
 //Minimax IS the min and max function. Contains Alpha Beta
 ////////////////////////////////////////////

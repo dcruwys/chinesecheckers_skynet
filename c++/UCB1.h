@@ -3,15 +3,19 @@
 #include "ChineseCheckersState.h"
 #include "Agent.h"
 
+
+
 class UCB1
 {
 public:
   // UCB1();
    int totalSample = 1;
-   Move UCB1move(ChineseCheckersState &state);
+   Move UCB1move(ChineseCheckersState &state, bool policy);
   // int moveDistance(Move aMove);
-   int randomPolicies(Move aMove, bool policyType);
-
+   double randomPolicies(Move aMove, bool policyType);
+   int getTotalSamples();   
+   UCB1();
+   ~UCB1();
 private:
 
 };

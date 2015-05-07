@@ -11,7 +11,8 @@
 #include "Agent.h"
 #include <thread>
 #include "UCB1.h"
-//UCB1::UCB1();
+UCB1::UCB1 () {};
+UCB1::~UCB1 () {};
 
 //Struct for an arm to be searched in the bandit algorithm.
 //All values initialized to 0. Basically we're treating
@@ -22,7 +23,9 @@ struct arm {
    double avgScore = 0.0;
    double totalScore = 0.0;
    int timesPlayed = 0;
+ 
    arm(){};
+   
    arm(Move m, double payoff, double avgScore, double totalScore, int timesPlayed)
    {
 	  this->m = m;
@@ -32,7 +35,7 @@ struct arm {
 	  this->timesPlayed = timesPlayed;
    }
 };
-//Confidence Bound
+
 
 //Lambda functions:
 //Upperbound score, right hand side of the UCB1 algorithm
@@ -41,7 +44,7 @@ auto ucbFunc = [](int totalSample, double payOff, int numPlays){ return payOff +
 auto updateAvgScore = [](double totalScore, double aScore, int timesPlayed){ return (totalScore += aScore) / timesPlayed;};
 
 //Also need to deal with timer or whatever
-Move UCB1::UCB1move(ChineseCheckersState &state){
+Move UCB1::UCB1move(ChineseCheckersState &state, bool policy){
 
    std::vector<Move> actions;
    state.getMoves(actions);
@@ -52,7 +55,7 @@ Move UCB1::UCB1move(ChineseCheckersState &state){
    bool timeUp = false;
    auto duration = std::chrono::milliseconds(1000); //1s
    auto time = std::thread([&timeUp, duration](){ std::this_thread::sleep_for(duration); timeUp = true; });
-
+   //bool whichStrategy = state.getCurrentPlayer() == 2 ? 0 : 1; //Decides which strategy to use
    //Loop through each item and get the UCB1 values
    //Also update the values of each arm.
   for(int i = 0; i < actions.size(); ++i){ 
@@ -75,8 +78,11 @@ Move UCB1::UCB1move(ChineseCheckersState &state){
 	 //Get best arm by searching the list of arms 
 	
      for(auto anArm : theArms) { if(anArm.totalScore > bestArm.totalScore) {bestArm = anArm; std::cerr << "New BestArm!" << std::endl; } }
-	 //double payOff = randomHelperFunction(bestArm.m); //Again, need to impliment this
-	 int payOff = 1; //Don't leave this...UCB1 will be useless
+	
+	 //Call on the UCB1 policy functions
+	 double payOff = randomPolicies(bestArm.m, policy); //
+	 
+	 //int payOff = 1; //Don't leave this...UCB1 will be useless
 	 bestArm.totalScore += payOff;
      bestArm.avgScore = ucbFunc(totalSample, payOff, bestArm.timesPlayed); //update the avg score with ucb1 functions
   }
@@ -103,7 +109,7 @@ unsigned getRand()
    return distribution(generator);
 }
 //Helper Functions
-int UCB1::randomPolicies(Move aMove, bool policyType){
+double UCB1::randomPolicies(Move aMove, bool policyType){
    //Call a state
    //
    //NOTE, WE NEED a new CCState, or else more work will be needed
@@ -133,12 +139,12 @@ int UCB1::randomPolicies(Move aMove, bool policyType){
 			
 		 } else {
 			//only happens 15% of the time
-			state.applyMove(moves.at((int)(getRand()*moves.size())));
+			state.applyMove(moves.at((int)(getRand() * moves.size())));
 		 }
 		 
 	  }
 	  //Return results
-	  if(state.winner() == state.getCurrentPlayer()) return 1; else return 0; 
+	  if(state.winner() == state.getCurrentPlayer()) return 1.0; else return 0.0; 
   }
 
   //Playout Policy 2
@@ -149,7 +155,8 @@ int UCB1::randomPolicies(Move aMove, bool policyType){
    const int movesToPlay = 75;
    for (int i = 0; i < movesToPlay; ++i){
 	  //Check if the game is over, if so run eval function
-	  if(state.gameOver()) return state.eval();
+	  if(state.gameOver()) return (double) state.eval();
+
 	  state.getMoves(); //We need to get the moves each time this time
 	  if(getRand() > 0.15){
 	  //Note, Again, this Might be wrong!!!
@@ -161,12 +168,15 @@ int UCB1::randomPolicies(Move aMove, bool policyType){
 			
 	  } else {
 		 //only happens 15% of the time
-		 state.applyMove(moves.at((int)(getRand()*moves.size())));
+		 state.applyMove(moves.at((double)(getRand() * moves.size())));
 	  }
    }
    //Return the eval function
-   return state.eval();
+   return (double) state.eval();
   }
   std::cerr << "Something went wrong. Neither Policy seems to have returned anything" << std::endl;
-  return 0; // In case something weird happens
+  return 0.0; // In case something weird happens
+}
+int UCB1::getTotalSamples(){
+   return totalSample; 
 }
