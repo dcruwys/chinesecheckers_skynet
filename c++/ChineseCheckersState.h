@@ -38,11 +38,11 @@ public:
 
   // Don't allow copies for simplicity (the functions below are for the rule of 5)
   // copy ctor
-  ChineseCheckersState(const ChineseCheckersState&) = delete;
+  ChineseCheckersState(const ChineseCheckersState&) = default;
   // move ctor
   ChineseCheckersState(const ChineseCheckersState&&) = delete;
   // copy assignment
-  ChineseCheckersState &operator=(const ChineseCheckersState&) = delete;
+  ChineseCheckersState &operator=(const ChineseCheckersState&) = default;
   // move assignment
   ChineseCheckersState &operator=(const ChineseCheckersState&&) = delete;
 
