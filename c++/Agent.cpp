@@ -44,20 +44,19 @@ Move Agent::nextMove() {
         turn++;
       } 
     } 
-	//Disabled for UCB1
-	/*else {
+	  else {
       bestMove = ideepening(state);
     }
     if(!state.isValidMove(bestMove))
         bestMove = ideepening(state);
-    return bestMove;*/
+    return bestMove;
    
 	//Determine the policy type for player to use
-   bool policyType = state.getCurrentPlayer() == 1 ? 0 : 1; 
-   UCB1 aUCBAgent; //Not sure if this should go in header
-   std::cerr << "Number of sims done with UCB1: " << aUCBAgent.getTotalSamples() << std::endl;
+   //bool policyType = state.getCurrentPlayer() == 1 ? 0 : 1; 
+   //UCB1 aUCBAgent; //Not sure if this should go in header
+   //std::cerr << "Number of sims done with UCB1: " << aUCBAgent.getTotalSamples() << std::endl;
    //Return the move UCB1 found
-   return aUCBAgent.UCB1move(state, policyType);
+   //return aUCBAgent.UCB1move(state, policyType);
 
 	
 }
@@ -260,16 +259,16 @@ int Agent::eval(ChineseCheckersState &state, int depth){
   for(int i = 0; i < 81; ++i){
     if (board[i] != 0) {
       int currentlocation = ((i % 9) + (i / 9));
-      if (board[i] == 2)
-        p1score += 16 - currentlocation;
+      if (board[i] == 1)
+        p1score += currentlocation;
       else
-        p2score += currentlocation;
+        p2score += 16-currentlocation;
     }
   }
-  if (rootPlayer == 1){ //flipping the score seems to work.
-    return p2score - p1score - depth;
+  if (rootPlayer == 2){ 
+    return p2score - p1score;
   }
-  return p1score - p2score - depth;
+  return p1score - p2score;
 }
 
 void Agent::sort(std::vector<Move> &moves){
