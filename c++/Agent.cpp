@@ -249,9 +249,9 @@ void Agent::hhInsert(Move aMove, int depth){
 int Agent::eval(ChineseCheckersState &state, int depth){
   int winner = state.winner();
   if(rootPlayer == winner)
-    return std::numeric_limits<int>::max();
+    return std::numeric_limits<int>::max() - depth;
   else if(winner != -1)
-    return std::numeric_limits<int>::min();
+    return std::numeric_limits<int>::min() - depth;
 
   int p2score = 0;
   int p1score = 0;
