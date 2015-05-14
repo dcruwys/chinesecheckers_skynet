@@ -11,7 +11,7 @@ struct MCNode
    int myChildren = 0;
    Move myMove = {0,0};
    uint32_t location = 0;
-   double myPayoff = 0.0;
+   double payOff = 0.0;
    int totalSamples = 0;
    uint32_t parentIndex = 0;
    //Constructor
@@ -149,8 +149,24 @@ bool MCTS::IsLeaf(uint32_t nde)
    return 0;
 }
 // expand the designated node and add its children to the tree
-void MCTS::Expand(uint32_t node)
+void MCTS::Expand(uint32_t node, ChineseCheckersState &state)
 {
+  std::vector<Move> moves;
+  state.getMoves(moves);
+  std::vector<Move> temp;
+  for(const auto i: moves){
+    int a = random(i, state);
+    state.applyMove(i);
+    state.getMoves(temp);
+    MCNode newNode = new MCNode(temp.size(), i, moves.size(), a, node);
+    tree.push_back(newNode); //add new node to tree.
+    MCNode parent = tree[MCNode.parentIndex]
+    while(parent != null){
+      parent.payOff += a;
+      parent = tree[parent.parentIndex];
+    }
+    state.undoMove(i);
+  }
 }
 // play out the game, returning the evaluation at the end of the game
 double MCTS::DoPlayout(uint32_t node)
