@@ -8,8 +8,8 @@ MCTS::MCTS(){}
 //Are data type to be put in the tree
 struct MCNode
 {
-   int myChildren = 0;
-   Move myMove = {0,0};
+   int children = 0;
+   Move m = {0,0};
    uint32_t location = 0;
    double payOff = 0.0;
    int totalSamples = 0;
@@ -147,7 +147,10 @@ uint32_t MCTS::SelectBestChild(uint32_t node)
 // is the designated node a leaf
 bool MCTS::IsLeaf(uint32_t node)
 {
-   return 0;
+  MCNode current = tree[node];
+  if(current.children == 0)
+   return true;
+  return false;
 }
 // expand the designated node and add its children to the tree
 void MCTS::Expand(uint32_t node, ChineseCheckersState &state)
