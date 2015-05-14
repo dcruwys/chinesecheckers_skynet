@@ -34,32 +34,18 @@ struct MCNode
 //Initializes the tree
 std::vector<MCNode> tree;
 
-std::vector<MCNode> MCTS::InitializeTree(ChineseCheckersState &state)
+void MCTS::InitializeTree(ChineseCheckersState &state)
 {
    //Initialize stuff
+   tree.clear();
    std::vector<Move> moves;
    state.getMoves(moves);
    //Initialize the root of the tree to the first Node,
    //and num challenge 
    MCNode rootNode(moves.size(), moves.at(0), 0, 0.0, 1);
    tree.push_back(rootNode); //Add to tree
-   std::vector<Move> tempList;
-   int counter = 1;
-   for(Move m : moves)
-   {
-	  //Get the [payOff] integer returned from our UCB1 function
-	  int payOff = random(m, state);
-	  state.applyMove(move);
-	  state.getMoves(tempList);
-	  MCNode node2(tempList.size(), m, tree.size(), payOff, tree.get(0));
-	  //reassign
-	  tree[j] = node2;
-	  state.undoMove(m);
-	  j++;
-   }
    //Choose next node
-   return SelectBestChild(tree.at(0).location);
-   
+   //return SelectBestChild(tree.at(0).location);  
 }
 ////////////////////////
 /////Some UCB1 Code/////
@@ -73,10 +59,12 @@ unsigned getRand()
    std::cerr << "rand = " << rand << std::endl;
    return rand;
 }
-int MCTS::random(Move aMove, ChineseCheckersState &s){
+int MCTS::random(Move aMove, ChineseCheckersState &s)
+{
    //Call a state
    //
    //NOTE, WE NEED a new CCState, or else more work will be needed
+   
    ChineseCheckersState state(s);
    int cPlayer = state.getCurrentPlayer();
    //std::cerr << "State Cloned! Applying move, " << aMove << " checking current player in cloned: " << cPlayer << std::endl;
@@ -120,22 +108,35 @@ int MCTS::random(Move aMove, ChineseCheckersState &s){
 	  }
    }
    //Return the eval function
-   return state.eval();
- 
+   return state.eval(); 
 }
-
-
 
 // the high-level function for computing the best move
 Move MCTS::GetBestMove()
 {
-
+   //myLeaf = root node
+   int myLeaf = SelectLeaf(tree.at(0).location);
+   
    return bestMove;
 }
 // traverse down the tree (recursively),
 // returning the value at the leaf of the sample
 double MCTS::SelectLeaf(uint32_t node)
 {
+   std::vector<Move> tempList;
+   int counter = 1;
+   for(Move m : moves)
+   {
+	  //Get the [payOff] integer returned from our UCB1 function
+	  int payOff = random(m, state);
+	  state.applyMove(move);
+	  state.getMoves(tempList);
+	  MCNode node2(tempList.size(), m, tree.size(), payOff, tree.get(0));
+	  //reassign
+	  tree[j] = node2;
+	  state.undoMove(m);
+	  counter++;
+   }
    return 0.0;
 }
 // Use the UCB rule to find the best child
@@ -144,7 +145,7 @@ uint32_t MCTS::SelectBestChild(uint32_t node)
    return 0;
 }
 // is the designated node a leaf
-bool MCTS::IsLeaf(uint32_t nde)
+bool MCTS::IsLeaf(uint32_t node)
 {
    return 0;
 }
