@@ -18,7 +18,7 @@ double GetUCBVal(uint32_t node, uint32_t parent);
 // is the designated node a leaf
 bool IsLeaf(uint32_t node); 
  // expand the designated node and add its children to the tree
-void Expand(uint32_t node);
+void Expand(uint32_t node, ChineseCheckersState &state);
 // play out the game, returning the evaluation at the end of the game
 double DoPlayout(uint32_t node);
 
