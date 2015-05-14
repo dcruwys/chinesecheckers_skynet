@@ -5,48 +5,121 @@
 #include <iterator>
 MCTS::MCTS(){}
 
-//Are data type to be put in the tree
-struct MCNode
-{
-   int myChildren = 0;
-   Move myMove = {0,0};
-   uint32_t location = 0;
-   double payOff = 0.0;
-   int totalSamples = 0;
-   uint32_t parentIndex = 0;
-   //Constructor
-   MCNode(){};
-   MCNode(int children, Move m, uint32_t location, double payOff, uint32_t parentIndex)
-   {
-	  this->children = children;
-	  this->m = m;
-	  this->location = location;
-	  this->payOff = payOff;
-	  this->parentIndex = parentIndex;
-   }
-   int getChildren() return children;
-   Move getMove() return m;
-   uint32_t getLocation() return location;
-   double getPayOff() return payOff;
-   uint32_t getParentIndex() return parentIndex;
-};
-
 //Initializes the tree
 std::vector<MCNode> tree;
+
+std::vector<Move> moves;
+state.getMoves(moves);
 
 void MCTS::InitializeTree(ChineseCheckersState &state)
 {
    //Initialize stuff
    tree.clear();
-   std::vector<Move> moves;
-   state.getMoves(moves);
-   //Initialize the root of the tree to the first Node,
+      //Initialize the root of the tree to the first Node,
    //and num challenge 
-   MCNode rootNode(moves.size(), moves.at(0), 0, 0.0, 1);
+   MCNode rootNode(moves.size(), moves.at(0), 0, 0.0, 0);
    tree.push_back(rootNode); //Add to tree
    //Choose next node
    //return SelectBestChild(tree.at(0).location);  
 }
+// the high-level function for computing the best move
+Move MCTS::GetBestMove()
+{
+   //First initialize the tree
+   InitizeTree(ChineseCheckersState &state);
+   //myLeaf = root node
+   uint32_t int myLeaf = SelectLeaf(tree.at(0).location);
+   if(IsLeaf(myLeaf))
+	  uint32_t bestChild = SelectBestChild(myLeaf);  
+   else
+	  std::cerr << "Hmm...Not a leaf" << std::endl;
+   //Expand(bestChild, ChineseCheckersState &state);
+   return bestMove;
+}
+
+double MCTS::GetUCBVal(uint32_t node, uint32_t parent)
+{
+   //Not sure if we need this still   
+}
+/////////////////////
+///END UCB1 Stuff////
+////////////////////
+
+
+// traverse down the tree (recursively),
+// returning the value at the leaf of the sample
+double MCTS::SelectLeaf(uint32_t node)
+{
+  /* std::vector<Move> tempList;
+   int counter = node;
+   for(Move m : moves)
+   {
+	  //Get the [payOff] integer returned from our UCB1 function
+	  int payOff = random(m, state);
+	  state.applyMove(move);
+	  state.getMoves(tempList);
+	  MCNode node2(tempList.size(), m, tree.size(), payOff, tree.get(node));
+	  //reassign
+	  tree[counter] = node2;
+	  state.undoMove(m);
+	  counter++;
+   }*/
+
+   MCNode best = tree.at(node);
+   for(auto i = node; i < best.children + node; ++i)
+	  if(tree.at(i).getPayOff > best.getPayOff) best = tree.at(i);
+   //Recursion
+	  
+	  //ChineseCheckersState probably needs to be a copy
+	  Expand(best.location, ChineseCheckersState &state);
+
+   if(best.children != 0){
+	  SelectLeaf(best.location);
+   }
+   return best.getPayOff;
+}
+// Use the UCB rule to find the best child
+// Seems that Select leaf kind of does this
+uint32_t MCTS::SelectBestChild(uint32_t node)
+{
+   //start at parent
+   MCNode bestChild = tree.at(node);
+   for(int i = node; i < bestChild.children + node; ++i){
+	  if(tree.at(i).getAveragePayoff() > bestChild.getAveragePayoff())
+		 bestChild = tree.at(i);
+   }
+   return bestChild.location;
+}
+// is the designated node a leaf
+bool MCTS::IsLeaf(uint32_t node)
+{
+   return tree.at(node).children == 0 ? 0 : 1;
+}
+// expand the designated node and add its children to the tree
+void MCTS::Expand(uint32_t node, ChineseCheckersState &state)
+{
+  std::vector<Move> moves;
+  state.getMoves(moves);
+  std::vector<Move> temp;
+  for(const auto i: moves){
+    int a = random(i, state);
+    state.applyMove(i);
+    state.getMoves(temp);
+    MCNode newNode(temp.size(), i, moves.size(), a, node);
+    tree.push_back(newNode); //add new node to tree.
+    MCNode parent = tree[MCNode.parentIndex]
+    while(parent != null){
+      parent.payOff += a;
+      parent = tree[parent.parentIndex];
+    }
+    state.undoMove(i);
+  }
+}
+// play out the game, returning the evaluation at the end of the game
+double MCTS::DoPlayout(uint32_t node)
+{
+}
+
 ////////////////////////
 /////Some UCB1 Code/////
 ////////////////////////
@@ -76,8 +149,10 @@ int MCTS::random(Move aMove, ChineseCheckersState &s)
    //std::cerr << "Player after get move check: " << cPlayer << std::endl;
    //Increase our totalSamples, as another game is being sampled
    auto rand = getRand();
+   
+   //Increase totalSample size
    totalSample++;
-   //std::cerr << "sample increased, now = " << totalSample << std::endl;
+   std::cerr << "sample increased, now = " << totalSample << std::endl;
 
  
   //Playout Policy 2
@@ -111,69 +186,4 @@ int MCTS::random(Move aMove, ChineseCheckersState &s)
    return state.eval(); 
 }
 
-// the high-level function for computing the best move
-Move MCTS::GetBestMove()
-{
-   //myLeaf = root node
-   int myLeaf = SelectLeaf(tree.at(0).location);
-   
-   return bestMove;
-}
-// traverse down the tree (recursively),
-// returning the value at the leaf of the sample
-double MCTS::SelectLeaf(uint32_t node)
-{
-   std::vector<Move> tempList;
-   int counter = 1;
-   for(Move m : moves)
-   {
-	  //Get the [payOff] integer returned from our UCB1 function
-	  int payOff = random(m, state);
-	  state.applyMove(move);
-	  state.getMoves(tempList);
-	  MCNode node2(tempList.size(), m, tree.size(), payOff, tree.get(0));
-	  //reassign
-	  tree[j] = node2;
-	  state.undoMove(m);
-	  counter++;
-   }
-   MCNode best = tree.at(node);
-   for(auto i = node; i < best.children + node; ++i)
-	  if(tree.at(i).payOff > best.payOff) best = tree.at(i);
-   if(best.children != 0) SelectLeaf(best.location);
-   return best.payOff;
-}
-// Use the UCB rule to find the best child
-uint32_t MCTS::SelectBestChild(uint32_t node)
-{
-   return 0;
-}
-// is the designated node a leaf
-bool MCTS::IsLeaf(uint32_t node)
-{
-   return 0;
-}
-// expand the designated node and add its children to the tree
-void MCTS::Expand(uint32_t node, ChineseCheckersState &state)
-{
-  std::vector<Move> moves;
-  state.getMoves(moves);
-  std::vector<Move> temp;
-  for(const auto i: moves){
-    int a = random(i, state);
-    state.applyMove(i);
-    state.getMoves(temp);
-    MCNode newNode(temp.size(), i, moves.size(), a, node);
-    tree.push_back(newNode); //add new node to tree.
-    MCNode parent = tree[MCNode.parentIndex]
-    while(parent != null){
-      parent.payOff += a;
-      parent = tree[parent.parentIndex];
-    }
-    state.undoMove(i);
-  }
-}
-// play out the game, returning the evaluation at the end of the game
-double MCTS::DoPlayout(uint32_t node)
-{
-}
+
