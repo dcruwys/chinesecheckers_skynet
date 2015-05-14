@@ -22,7 +22,7 @@ void Expand(uint32_t node);
 // play out the game, returning the evaluation at the end of the game
 double DoPlayout(uint32_t node);
 
-double random(Move aMove, ChineseCheckersState &s);
+int random(Move aMove, ChineseCheckersState &s);
 
 private:
  

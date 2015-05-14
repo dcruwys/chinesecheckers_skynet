@@ -1,6 +1,8 @@
 #include <vector>
 #include "MCTS.h"
-
+#include <algorithm>
+#include <random>
+#include <iterator>
 MCTS::MCTS(){}
 
 //Are data type to be put in the tree
@@ -11,35 +13,53 @@ struct MCNode
    uint32_t location = 0;
    double myPayoff = 0.0;
    int totalSamples = 0;
+   uint32_t parentIndex = 0;
    //Constructor
    MCNode(){};
-   MCNode(int children, Move m, uint32_t location, double payOff, int samples)
+   MCNode(int children, Move m, uint32_t location, double payOff, uint32_t parentIndex)
    {
 	  this->children = children;
 	  this->m = m;
 	  this->location = location;
 	  this->payOff = payOff;
-	  this->samples = samples;
+	  this->parentIndex = parentIndex;
    }
    int getChildren() return children;
    Move getMove() return m;
    uint32_t getLocation() return location;
    double getPayOff() return payOff;
-   int getSamples() return samples;
+   uint32_t getParentIndex() return parentIndex;
 };
 
 //Initializes the tree
+std::vector<MCNode> tree;
+
 std::vector<MCNode> MCTS::InitializeTree(ChineseCheckersState &state)
 {
    //Initialize stuff
    std::vector<Move> moves;
    state.getMoves(moves);
-   std::vector<MCNode> tree;
    //Initialize the root of the tree to the first Node,
    //and num challenge 
-   MCNode rootNode(moves.size(), moves.at(0), 0, 0.0, 0);
-   tree.push_back(); //Add to tree
-
+   MCNode rootNode(moves.size(), moves.at(0), 0, 0.0, 1);
+   tree.push_back(rootNode); //Add to tree
+   std::vector<Move> tempList;
+   int counter = 1;
+   for(Move m : moves)
+   {
+	  //Get the [payOff] integer returned from our UCB1 function
+	  int payOff = random(m, state);
+	  state.applyMove(move);
+	  state.getMoves(tempList);
+	  MCNode node2(tempList.size(), m, tree.size(), payOff, tree.get(0));
+	  //reassign
+	  tree[j] = node2;
+	  state.undoMove(m);
+	  j++;
+   }
+   //Choose next node
+   return SelectBestChild(tree.at(0).location);
+   
 }
 ////////////////////////
 /////Some UCB1 Code/////
@@ -53,7 +73,7 @@ unsigned getRand()
    std::cerr << "rand = " << rand << std::endl;
    return rand;
 }
-double MCTS::random(Move aMove, ChineseCheckersState &s){
+int MCTS::random(Move aMove, ChineseCheckersState &s){
    //Call a state
    //
    //NOTE, WE NEED a new CCState, or else more work will be needed
@@ -66,20 +86,22 @@ double MCTS::random(Move aMove, ChineseCheckersState &s){
    std::vector<Move> moves;
    state.getMoves(moves);
    //std::cerr << "Player after get move check: " << cPlayer << std::endl;
-  //Increase our totalSamples, as another game is being sampled
-  auto rand = getRand();
-  totalSample++;
-  //std::cerr << "sample increased, now = " << totalSample << std::endl;
+   //Increase our totalSamples, as another game is being sampled
+   auto rand = getRand();
+   totalSample++;
+   //std::cerr << "sample increased, now = " << totalSample << std::endl;
 
  
   //Playout Policy 2
   //This policy return the results being evaluated by the eval function
     std::cerr << "Policy 2 being used " << std::endl;
    //Allow to play to x moves
-   const int movesToPlay = 75;
+   const int movesToPlay = 5;
    for (int i = 0; i < movesToPlay; ++i){
+	  rand = getRand(); //Generate a new random number
+
 	  //Check if the game is over, if so run eval function
-	  if(state.gameOver()) return (double) state.eval();
+	  if(state.gameOver()) return state.eval();
 
 	  state.getMoves(moves); //We need to get the moves each time this time
 	  if(rand > 0.15){
@@ -94,11 +116,11 @@ double MCTS::random(Move aMove, ChineseCheckersState &s){
 			
 	  } else {
 		 //only happens 15% of the time
-		 state.applyMove(moves.at((double)(getRand() * moves.size())));
+		 state.applyMove(moves.at((int)(getRand() * moves.size())));
 	  }
    }
    //Return the eval function
-   return (double) state.eval();
+   return state.eval();
  
 }
 
