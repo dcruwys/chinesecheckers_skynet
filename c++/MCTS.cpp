@@ -8,8 +8,8 @@ MCTS::MCTS(){}
 //Are data type to be put in the tree
 struct MCNode
 {
-   int children = 0;
-   Move m = {0,0};
+   int myChildren = 0;
+   Move myMove = {0,0};
    uint32_t location = 0;
    double payOff = 0.0;
    int totalSamples = 0;
@@ -137,7 +137,11 @@ double MCTS::SelectLeaf(uint32_t node)
 	  state.undoMove(m);
 	  counter++;
    }
-   return 0.0;
+   MCNode best = tree.at(node);
+   for(auto i = node; i < best.children + node; ++i)
+	  if(tree.at(i).payOff > best.payOff) best = tree.at(i);
+   if(best.children != 0) SelectLeaf(best.location);
+   return best.payOff;
 }
 // Use the UCB rule to find the best child
 uint32_t MCTS::SelectBestChild(uint32_t node)
@@ -147,10 +151,7 @@ uint32_t MCTS::SelectBestChild(uint32_t node)
 // is the designated node a leaf
 bool MCTS::IsLeaf(uint32_t node)
 {
-  MCNode current = tree[node];
-  if(current.children == 0)
-   return true;
-  return false;
+   return 0;
 }
 // expand the designated node and add its children to the tree
 void MCTS::Expand(uint32_t node, ChineseCheckersState &state)
@@ -162,7 +163,7 @@ void MCTS::Expand(uint32_t node, ChineseCheckersState &state)
     int a = random(i, state);
     state.applyMove(i);
     state.getMoves(temp);
-    MCNode newNode = new MCNode(temp.size(), i, moves.size(), a, node);
+    MCNode newNode(temp.size(), i, moves.size(), a, node);
     tree.push_back(newNode); //add new node to tree.
     MCNode parent = tree[MCNode.parentIndex]
     while(parent != null){
