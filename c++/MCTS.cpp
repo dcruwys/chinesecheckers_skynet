@@ -3,19 +3,56 @@
 #include <algorithm>
 #include <random>
 #include <iterator>
-MCTS::MCTS(){}
+#include <iostream>
+//MCTS::MCTS(){}
 
-//Initializes the tree
+//Are data type to be put in the tree
+struct MCNode
+{
+   int children = 0;
+   Move myMove = {0,0};
+   uint32_t location = 0;
+   double payOff = 0.0;
+   int samples = 0;
+   int totalSample = 0;
+   uint32_t parentIndex = 0;
+   //Constructor
+   MCNode(){};
+   MCNode(int children, Move m, uint32_t location, double payOff, uint32_t parentIndex)
+   {
+	  this->children = children;
+	  this->myMove = m;
+	  this->location = location;
+	  this->payOff = payOff;
+	  this->parentIndex = parentIndex;
+	  //If root node samples = 0, else 1;
+	  parentIndex == 0 ? 0 : 1; 
+   } 
+   void addPayoff(double pay){
+	 payOff += pay;
+   	 totalSample++;
+   }
+   double getAveragePayoff(){ return payOff / samples; }
+   //Calculate payoff with UCB algorithm
+   double getPayOff(){
+	  return ((payOff / samples) + 10 * sqrt((log(totalSample)/samples)));
+   } 
+};
+
 std::vector<MCNode> tree;
 
-std::vector<Move> moves;
-state.getMoves(moves);
-
-void MCTS::InitializeTree(ChineseCheckersState &state)
+void MCTS::InitializeTree(ChineseCheckersState &s)
 {
+
    //Initialize stuff
+   //Initializes the tree
+
+   std::vector<Move> moves;
+   ChineseCheckersState state(s);
+   state.getMoves(moves);
+   
    tree.clear();
-      //Initialize the root of the tree to the first Node,
+   //Initialize the root of the tree to the first Node,
    //and num challenge 
    MCNode rootNode(moves.size(), moves.at(0), 0, 0.0, 0);
    tree.push_back(rootNode); //Add to tree
@@ -26,7 +63,7 @@ void MCTS::InitializeTree(ChineseCheckersState &state)
 Move MCTS::GetBestMove()
 {
    //First initialize the tree
-   InitizeTree(ChineseCheckersState &state);
+   InitizeTree(ChineseCheckersState state);
    //myLeaf = root node
    uint32_t int myLeaf = SelectLeaf(tree.at(0).location);
    if(IsLeaf(myLeaf))

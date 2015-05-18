@@ -6,36 +6,6 @@
 #include <cmath>
 
 //Are data type to be put in the tree
-struct MCNode
-{
-   int myChildren = 0;
-   Move myMove = {0,0};
-   uint32_t location = 0;
-   double payOff = 0.0;
-   int samples = 0;
-   uint32_t parentIndex = 0;
-   //Constructor
-   MCNode(){};
-   MCNode(int children, Move m, uint32_t location, double payOff, uint32_t parentIndex)
-   {
-	  this->children = children;
-	  this->m = m;
-	  this->location = location;
-	  this->payOff = payOff;
-	  this->parentIndex = parentIndex;
-	  //If root node samples = 0, else 1;
-	  totalSample = parentIndex == 0 ? 0 : 1;
-   } 
-   void addPayoff(double pay){
-	 payOff += pay;
-   	 totalSample++;
-   }
-   auto getAveragePayoff() return payOff / samples;
-   //Calculate payoff with UCB algorithm
-   double getPayOff()
-	  return ((payOff / samples) + 10 * sqrt((log(totalSamples)/samples)));
-   
-};
 
 class MCTS
 {

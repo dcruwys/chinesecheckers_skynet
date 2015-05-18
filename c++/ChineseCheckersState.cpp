@@ -434,19 +434,20 @@ int ChineseCheckersState::eval(){
   //   return std::numeric_limits<int>::max();
   // else if(winner != -1)
   //   return std::numeric_limits<int>::min();
- int p2score = 0;
+
+  int p2score = 0;
   int p1score = 0;
-  std::array<int, 81> board = state.getBoard();
+  std::array<int, 81> board = getBoard();
   for(int i = 0; i < 81; ++i){
     if (board[i] != 0) {
       int currentlocation = ((i % 9) + (i / 9));
-      if (board[i] == 1)
-        p1score += currentlocation;
+      if (board[i] == 2)
+        p1score += 16 - currentlocation;
       else
-        p2score += 16-currentlocation;
+        p2score += currentlocation;
     }
   }
-  if (rootPlayer == 2){ 
+  if (rootPlayer == 1){ //flipping the score seems to work.
     return p2score - p1score;
   }
   return p1score - p2score;
