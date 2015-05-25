@@ -14,6 +14,7 @@
 #include "TT.h"
 #include <algorithm>
 #include "UCB1.h"
+#include "MCTS.h"
 Agent::Agent() : name("tables") {}
 //Opening Book Arrays
 //const int obSize = 7;
@@ -45,10 +46,11 @@ Move Agent::nextMove() {
       } 
     } 
 	  else {
-      bestMove = ideepening(state);
+     MCTS tree;
+     bestMove = tree.GetBestMove(state);
     }
-    if(!state.isValidMove(bestMove))
-        bestMove = ideepening(state);
+    // if(!state.isValidMove(bestMove))
+    //    bestMove = ideepening(state);
     return bestMove;
    
 	//Determine the policy type for player to use

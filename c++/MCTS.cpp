@@ -4,7 +4,7 @@
 #include <random>
 #include <iterator>
 #include <iostream>
-//MCTS::MCTS(){}
+
 
 //Are data type to be put in the tree
 struct MCNode
@@ -26,7 +26,7 @@ struct MCNode
 	  this->payOff = payOff;
 	  this->parentIndex = parentIndex;
 	  //If root node samples = 0, else 1;
-	  parentIndex == 0 ? 0 : 1; 
+	  //parentIndex == 0 ? 0 : 1;
    } 
    void addPayoff(double pay){
 	 payOff += pay;
@@ -40,6 +40,9 @@ struct MCNode
 };
 
 std::vector<MCNode> tree;
+
+MCTS::MCTS(){}
+MCTS::~MCTS(){}
 
 void MCTS::InitializeTree(ChineseCheckersState &s)
 {
@@ -60,24 +63,22 @@ void MCTS::InitializeTree(ChineseCheckersState &s)
    //return SelectBestChild(tree.at(0).location);  
 }
 // the high-level function for computing the best move
-Move MCTS::GetBestMove()
+Move MCTS::GetBestMove(ChineseCheckersState &state)
 {
    //First initialize the tree
-   InitizeTree(ChineseCheckersState state);
+   InitializeTree(state);
+   uint32_t bestChild = 0;
    //myLeaf = root node
-   uint32_t int myLeaf = SelectLeaf(tree.at(0).location);
+   uint32_t myLeaf = SelectLeaf(tree.at(0).location, state);
    if(IsLeaf(myLeaf))
-	  uint32_t bestChild = SelectBestChild(myLeaf);  
+	  bestChild = SelectBestChild(myLeaf);  
    else
 	  std::cerr << "Hmm...Not a leaf" << std::endl;
    //Expand(bestChild, ChineseCheckersState &state);
-   return bestMove;
+   MCNode best = tree[bestChild];
+   return best.myMove;
 }
 
-double MCTS::GetUCBVal(uint32_t node, uint32_t parent)
-{
-   //Not sure if we need this still   
-}
 /////////////////////
 ///END UCB1 Stuff////
 ////////////////////
@@ -85,7 +86,7 @@ double MCTS::GetUCBVal(uint32_t node, uint32_t parent)
 
 // traverse down the tree (recursively),
 // returning the value at the leaf of the sample
-double MCTS::SelectLeaf(uint32_t node)
+double MCTS::SelectLeaf(uint32_t node, ChineseCheckersState &state)
 {
   /* std::vector<Move> tempList;
    int counter = node;
@@ -104,16 +105,17 @@ double MCTS::SelectLeaf(uint32_t node)
 
    MCNode best = tree.at(node);
    for(auto i = node; i < best.children + node; ++i)
-	  if(tree.at(i).getPayOff > best.getPayOff) best = tree.at(i);
+	  if(tree.at(i).getPayOff() > best.getPayOff()) 
+      best = tree.at(i);
    //Recursion
 	  
 	  //ChineseCheckersState probably needs to be a copy
-	  Expand(best.location, ChineseCheckersState &state);
+	  Expand(best.location, state);
 
    if(best.children != 0){
-	  SelectLeaf(best.location);
+	  SelectLeaf(best.location, state);
    }
-   return best.getPayOff;
+   return best.getPayOff();
 }
 // Use the UCB rule to find the best child
 // Seems that Select leaf kind of does this
@@ -144,23 +146,18 @@ void MCTS::Expand(uint32_t node, ChineseCheckersState &state)
     state.getMoves(temp);
     MCNode newNode(temp.size(), i, moves.size(), a, node);
     tree.push_back(newNode); //add new node to tree.
-    MCNode parent = tree[MCNode.parentIndex]
-    while(parent != null){
+    MCNode parent = tree[newNode.parentIndex];
+    while(parent.location != 0){
       parent.payOff += a;
       parent = tree[parent.parentIndex];
     }
     state.undoMove(i);
   }
 }
-// play out the game, returning the evaluation at the end of the game
-double MCTS::DoPlayout(uint32_t node)
-{
-}
-
 ////////////////////////
 /////Some UCB1 Code/////
 ////////////////////////
-unsigned getRand()
+unsigned MCTS::getRand()
 {
    std::random_device rd;
    std::mt19937 gen(rd());
@@ -188,8 +185,8 @@ int MCTS::random(Move aMove, ChineseCheckersState &s)
    auto rand = getRand();
    
    //Increase totalSample size
-   totalSample++;
-   std::cerr << "sample increased, now = " << totalSample << std::endl;
+   totalSamples++;
+   std::cerr << "sample increased, now = " << totalSamples << std::endl;
 
  
   //Playout Policy 2
@@ -207,7 +204,7 @@ int MCTS::random(Move aMove, ChineseCheckersState &s)
 	  if(rand > 0.15){
 	  //Note, Again, this Might be wrong!!!
 	  std::sort(moves.begin(), moves.end(), [](const Move &a, const Move &b){
-		 std::cerr << "lambda compare return" << a.score < b.score << std::endl; 
+		std::cerr << "lambda compare return" << a.score << " " << b.score << std::endl; 
 		 return a.score < b.score;});
 	  Move bestMove = moves.at(0);	 
 	  std::cerr << "Best move from Lambda Policy 1 = " << bestMove << std::endl;
