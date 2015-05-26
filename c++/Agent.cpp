@@ -35,21 +35,22 @@ Move Agent::nextMove() {
     //Opening book moves
     //Checks who the current player is
     //And executes those 'finely crafted' moves
-    // if(turn < 6){
-    //   if(state.getCurrentPlayer() == 1){
-    //     bestMove = openingbookP1[turn];
-    //     turn++;
-    //   }
-    //   if(state.getCurrentPlayer() == 2){
-    //     bestMove = openingbookP2[turn];
-    //     turn++;
-    //   } 
-    // } else {
-     MCTS tree(state);
-     bestMove = tree.GetBestMove();
-    // }
-    // if(!state.isValidMove(bestMove))
-    //    bestMove = ideepening(state);
+    if(turn < 6){
+      if(state.getCurrentPlayer() == 1){
+        bestMove = openingbookP1[turn];
+        turn++;
+      }
+      if(state.getCurrentPlayer() == 2){
+        bestMove = openingbookP2[turn];
+        turn++;
+      } 
+    } else {
+     //MCTS tree(state);
+     //bestMove = tree.GetBestMove();
+      bestMove = ideepening(state);
+    }
+    if(!state.isValidMove(bestMove))
+       bestMove = ideepening(state);
     return bestMove;
    
 	//Determine the policy type for player to use
@@ -377,7 +378,7 @@ int Agent::minimax(ChineseCheckersState &state, int depth, bool max, Move &bestM
 Move Agent::ideepening(ChineseCheckersState &state){
  bool timeUp = false;
  rootPlayer = state.getCurrentPlayer();
- auto duration = std::chrono::milliseconds(10000); //10s
+ auto duration = std::chrono::milliseconds(5000); //10s
  auto t = std::thread([&timeUp, duration](){ std::this_thread::sleep_for(duration); timeUp = true; });
  int depth = 1;
  Move bestMove = {0,0};
