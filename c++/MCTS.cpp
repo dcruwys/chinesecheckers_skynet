@@ -4,6 +4,8 @@
 #include <random>
 #include <iterator>
 #include <iostream>
+#include <chrono>
+#include <thread>
 
 
 int totalSamples = 0;
@@ -48,7 +50,6 @@ struct MCNode
 
 std::vector<MCNode> tree;
 ChineseCheckersState state;
-
 MCTS::MCTS(ChineseCheckersState &s)
 {
    //Deep Copy of state
@@ -57,10 +58,12 @@ MCTS::MCTS(ChineseCheckersState &s)
    tree.clear();
    std::vector<Move> moves;
    state.getMoves(moves);
-   
+   bool timeUp = false;
    MCNode rootNode(moves.size(), moves.at(0), 0, 0.0, 0);
    tree.push_back(rootNode);
-   SelectLeaf(rootNode.location);
+   auto duration = std::chrono::milliseconds(1000); //10s
+   auto t = std::thread([&timeUp, duration](){ std::this_thread::sleep_for(duration); timeUp = true; });
+   SelectLeaf(rootNode.location, timeUp);
 
 }
 MCTS::~MCTS(){};
@@ -94,7 +97,7 @@ double MCTS::random(Move aMove)
    //std::cerr << "Player after get move check: " << cPlayer << std::endl;
    //Increase our totalSamples, as another game is being sampled
    double rand = getRand();
-   
+   double value = (double) state.eval();
    //Increase totalSample size
    //totalSamples++;
 //   std::cerr << "sample increased, now = " << totalSamples << std::endl;
@@ -120,10 +123,15 @@ double MCTS::random(Move aMove)
 	  std::cerr << "Best move from Lambda Policy 1 = " << bestMove << std::endl;
 			//Apply Best Move
 		 state.applyMove(bestMove);
+     value = (double) state.eval();
+     state.undoMove(bestMove);
 			
 	  } else {
 		 //only happens 15% of the time
-		 state.applyMove(moves.at((int)(getRand() * (moves.size()-1))));
+     Move randomMove = moves.at((int)(getRand() * (moves.size()-1)));
+		 state.applyMove(randomMove);
+     value = (double) state.eval();
+     state.undoMove(randomMove);
 	  }
    }
    //Return the eval function
@@ -155,12 +163,14 @@ uint32_t MCTS::SelectBestChild(uint32_t node)
    return node+1;
 }
 
-double MCTS::SelectLeaf(uint32_t node)
+double MCTS::SelectLeaf(uint32_t node, bool &timeUp)
 {
+  while(!timeUp){
    std::cerr << "selectLeaf nodes recursively" << std::endl;
    if(!state.gameOver())
-	  return SelectLeaf(SelectBestChild(node));
+	  return SelectLeaf(SelectBestChild(node), timeUp);
    std::cerr << "gameOver, leaf payoff is = " << tree.at(node).payOff << std::endl;
+  }
    return tree.at(node).payOff;
 }
 

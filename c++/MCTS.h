@@ -23,7 +23,7 @@ public:
    double getRand();
    double random(Move aMove);
    double DoPlayout(Move move, uint32_t parent);
-   double SelectLeaf(uint32_t node);
+   double SelectLeaf(uint32_t node, bool &timeUp);
    double getUCBVal(uint32_t node); 
    // Use the UCB rule to find the best child
    uint32_t SelectBestChild(uint32_t node);  
