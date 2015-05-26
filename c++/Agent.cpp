@@ -44,10 +44,9 @@ Move Agent::nextMove() {
         bestMove = openingbookP2[turn];
         turn++;
       } 
-    } 
-	  else {
-     MCTS tree;
-     bestMove = tree.GetBestMove(state);
+    } else {
+     MCTS tree(state);
+     bestMove = tree.GetBestMove();
     }
     // if(!state.isValidMove(bestMove))
     //    bestMove = ideepening(state);

@@ -5,13 +5,10 @@
 #include <iterator>
 #include <iostream>
 
-
-int totalSamples = 0;
-
 struct MCNode
 {
    int children = 0;
-   Move move = {0,0};
+   Move myMove = {0,0};
    uint32_t location = 0;
    double payOff = 1.0;
    double UCB1Value = 1.0;
@@ -22,7 +19,7 @@ struct MCNode
    MCNode(int children, Move m, uint32_t location, double payOff, uint32_t parentIndex)
    {
 	  this->children = children;
-	  this->move = m;
+	  this->myMove = m;
 	  this->location = location;
 	  this->payOff = payOff;
 	  this->parentIndex = parentIndex;
@@ -52,25 +49,92 @@ ChineseCheckersState state;
 MCTS::MCTS(ChineseCheckersState &s)
 {
    //Deep Copy of state
-   state = s;
+   state(s);
    //Initialize Tree
    tree.clear();
-   std::vector<Move> moves;
-   state.getMoves(moves);
+   std::vector<Move> myMoves;
+   state.getMoves(myMoves);
    
-   MCNode rootNode(moves.size(), moves.at(0), 0, 0.0, 0);
+   MCNode rootNode(myMoves.size(), moves.at(0), 0, 0.0, 0);
    tree.push_back(rootNode);
-   SelectLeaf(rootNode.location);
+
 
 }
 MCTS::~MCTS(){};
 
-Move MCTS::GetBestMove(){
-   std::cerr << "Tree at(0) = " << tree.at(0).move << ", Tree at(1) = " << tree.at(1).move << ", Tree at(2) = " << tree.at(2).move << std::endl; 
-   return tree.at(0).move;
+Move getBestMove(){};
+
+double selectLeaf(uint32_t node)
+{
+   if(!state.GameOver())
+	  return selectLeaf(SelectBestChild(node));
+   return tree.at(node).value;
 }
 
-double MCTS::getRand()
+uint32_t SelectBestChild(uint32_t node)
+{
+   std::vector<Move> moves;
+   state.getMoves(moves);
+
+   for(int i = 0; i < moves.size(); ++i){
+	  //totalSamples++;
+	  tree.push_back(0, moves.at(i), node+i, 1.0, node);
+   }
+   std::sort(tree.at(node), tree.end, [](const MCNode &a, const MCNode &b){
+		 return GetUCBVal(a, node) > GetUCBVal(b, node)
+   }
+   Expand(node+1);
+   return node+1;
+}
+
+double getUCBVal(uint32_t node)
+{
+ return tree.at(node).getUCB1Value;  
+}
+
+void Expand(uint32_t node)
+{
+   int player = state.getCurrentPlayer();
+   state.applyMove(tree.at(node).myMove);
+   
+   std::vector<Move> movesList;
+   if(player == state.getCurrentPlayer()){
+	  std::cerr << "CurrentPlayer Check passed" << std::endl;
+	  state.getMoves(movesList);
+
+	  for(int i = node; i < m.size(); ++i){
+		 auto value = DoPlayout(m, node); //what is the parent?
+		 totalSamples++;
+		 tree.pushBack(0, m, node+i, 1.0, node); 
+	  }
+   std::cerr << "Children added, new tree size = " << tree.size() << std::endl;
+}
+
+
+
+double DoPlayout(Move move, uint32_t parent)
+{
+   //Simulate
+   double eval = 0.0;
+   if(!state.gameOver()){
+	 state.applyMove(move); 
+     eval = randomPlayout(node);
+	 state.undoMove(move);
+   }
+   //Backpropigation
+
+  uint32_t currentNode = tree[parent];
+  while(currentNode.location != 0)
+  {
+	 tree.at(parent).payOff += eval;
+	 tree.at(parent) = tree.at(parent.parentIndex); 
+  }
+}
+
+
+
+
+unsigned MCTS::getRand()
 {
    std::random_device rd;
    std::mt19937 gen(rd());
@@ -79,7 +143,7 @@ double MCTS::getRand()
    //std::cerr << "rand = " << rand << std::endl;
    return rand;
 }
-double MCTS::random(Move aMove)
+int MCTS::random(Move aMove)
 {
    //Call a state
    //
@@ -90,10 +154,10 @@ double MCTS::random(Move aMove)
    state.applyMove(aMove);
    std::vector<Move> moves;
    state.getMoves(moves);
- //  state.
+   state.
    //std::cerr << "Player after get move check: " << cPlayer << std::endl;
    //Increase our totalSamples, as another game is being sampled
-   double rand = getRand();
+   auto rand = getRand();
    
    //Increase totalSample size
    //totalSamples++;
@@ -115,7 +179,7 @@ double MCTS::random(Move aMove)
 	  //Note, Again, this Might be wrong!!!
 	  std::sort(moves.begin(), moves.end(), [](const Move &a, const Move &b){
 		std::cerr << "lambda compare return" << a.score << " " << b.score << std::endl; 
-		 return (double)( a.score < b.score);});
+		 return a.score < b.score;});
 	  Move bestMove = moves.at(0);	 
 	  std::cerr << "Best move from Lambda Policy 1 = " << bestMove << std::endl;
 			//Apply Best Move
@@ -127,88 +191,8 @@ double MCTS::random(Move aMove)
 	  }
    }
    //Return the eval function
-   return (double) state.eval(); 
+   return state.eval(); 
 }
-double MCTS::getUCBVal(uint32_t node)
-{
- return tree.at(node).getUCB1Value();  
-}
-
-
-uint32_t MCTS::SelectBestChild(uint32_t node)
-{
-   std::vector<Move> moves;
-   state.getMoves(moves);
-   std::cerr << "Selecting best child starting from node: " << node << std::endl;
-   for(int i = 0; i < moves.size(); ++i){
-	  //totalSamples++;
-	  MCNode n(0, moves.at(i), node+i, 1.0, node);
-	  n.UCB1Value = n.getUCB1Value();
-	  tree.push_back(n);
-   }
-   std::cerr << "Tree size is now = " << tree.size() << std::endl;
-   std::sort(tree.begin(), tree.end(), [](const MCNode &a, const MCNode &b) -> bool {
-		 return a.UCB1Value > b.UCB1Value;
-   });
-   std::cerr << "tree(node+1) move = " << tree.at(node+1).move << std::endl;
-   Expand(node+1);
-   return node+1;
-}
-
-double MCTS::SelectLeaf(uint32_t node)
-{
-   std::cerr << "selectLeaf nodes recursively" << std::endl;
-   if(!state.gameOver())
-	  return SelectLeaf(SelectBestChild(node));
-   std::cerr << "gameOver, leaf payoff is = " << tree.at(node).payOff << std::endl;
-   return tree.at(node).payOff;
-}
-
-void MCTS::Expand(uint32_t node)
-{
-   int player = state.getCurrentPlayer();
-   state.applyMove(tree.at(node).move);
-   
-   std::vector<Move> movesList;
-   if(player == state.getCurrentPlayer()){
-	  std::cerr << "CurrentPlayer Check passed" << std::endl;
-	  state.getMoves(movesList);
-
-	  for(int i = node; i < movesList.size(); ++i){
-		 auto value = DoPlayout(movesList.at(i), node); //what is the parent?
-		 totalSamples++;
-		 MCNode n(0, movesList.at(i), node+i, 1.0, node);
-		 tree.push_back(n); 
-	  }
-   std::cerr << "Children added, new tree size = " << tree.size() << std::endl;
-   }
-}
-
-
-
-double MCTS::DoPlayout(Move move, uint32_t parent)
-{
-   //Simulate
-   double eval = 0.0;
-   if(!state.gameOver()){
-	 state.applyMove(move); 
-     eval = random(move);
-	 state.undoMove(move);
-   }
-   //Backpropigation
-
-  MCNode currentNode = tree[parent];
-  while(currentNode.location != 0)
-  {
-	 currentNode.payOff += eval;
-	 parent = currentNode.parentIndex; 
-  }
-  return eval;
-}
-
-
-
-
 
 
 
