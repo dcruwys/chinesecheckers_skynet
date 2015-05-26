@@ -30,7 +30,8 @@ bool debug = true;
 Move Agent::nextMove() {
     // Somehow select your next move
     Move bestMove = {0, 0};
-    bool timeUp = false;
+    //bool timeUp = false;
+    //inital = 3;
     //int value = minimax(state, 3, true, bestMove, timeUp, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
     //Opening book moves
     //Checks who the current player is
@@ -250,11 +251,9 @@ void Agent::hhInsert(Move aMove, int depth){
 /////////////////////////////////////////
 int Agent::eval(ChineseCheckersState &state, int depth){
   int winner = state.winner();
-  if(rootPlayer == winner)
+  if(rootPlayer == winner && state.gameOver())
     return std::numeric_limits<int>::max() - depth;
-  else if(winner != -1)
-    return std::numeric_limits<int>::min() - depth;
-
+  int current = 0;
   int p2score = 0;
   int p1score = 0;
   std::array<int, 81> board = state.getBoard();
@@ -265,12 +264,17 @@ int Agent::eval(ChineseCheckersState &state, int depth){
         p1score += currentlocation;
       else
         p2score += 16-currentlocation;
-    }
+      if(currentlocation < 4 && board[i] == 1)
+        p1score -= 2;
+      else if(currentlocation > 12 && board[i] == 2)
+        p2score -= 2;
+      }
   }
   if (rootPlayer == 2){ 
-    return p2score - p1score;
+    current = p2score - p1score;
   }
-  return p1score - p2score;
+  current = p1score - p2score;
+  return current;
 }
 
 void Agent::sort(std::vector<Move> &moves){
@@ -378,7 +382,7 @@ int Agent::minimax(ChineseCheckersState &state, int depth, bool max, Move &bestM
 Move Agent::ideepening(ChineseCheckersState &state){
  bool timeUp = false;
  rootPlayer = state.getCurrentPlayer();
- auto duration = std::chrono::milliseconds(5000); //10s
+ auto duration = std::chrono::milliseconds(3000); //10s
  auto t = std::thread([&timeUp, duration](){ std::this_thread::sleep_for(duration); timeUp = true; });
  int depth = 1;
  Move bestMove = {0,0};
@@ -388,6 +392,14 @@ Move Agent::ideepening(ChineseCheckersState &state){
     std::cerr << depth << std::endl;
     int value = minimax(state, depth, true, tempMove, timeUp, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
     ++depth;
+    if(depth > 25){
+      bestMove = tempMove;
+      timeUp = true;
+    }
+    if(value > std::numeric_limits<int>::max()-100){
+      bestMove = tempMove;
+      timeUp = true;
+    }
     if(value > std::numeric_limits<int>::min())
       bestMove = tempMove;
     else
